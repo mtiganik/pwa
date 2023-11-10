@@ -1,0 +1,22 @@
+{
+  "name": "pwa01",
+  "version": "1.0.0",
+  "description": "pwa test",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack",
+    "build": "tsc --project ./src-sw/tsconfig.json --outDir ./dist && webpack build --mode production",
+    "sw-build": "tsc --project ./src-sw/tsconfig.json --outDir ./dist",
+    "sw-watch": "tsc --project ./src-sw/tsconfig.json --outDir ./dist-watch"
+  },
+  "author": "mtiganik",
+  "license": "ISC",
+  "dependencies": {
+    "idb": "^7.1.1",
+    "ts-loader": "^9.5.0"
+  },
+  "devDependencies": {
+    "webpack-cli": "^5.1.4"
+  }
+}
