@@ -1,3 +1,5 @@
+import axios from "axios";
+
 console.log('init app...')
 
 const invokeServiceWorkedUpdateFlow =(registration: ServiceWorkerRegistration) => {
@@ -53,6 +55,21 @@ const handleServiceWorker = async() => {
   }
 }
 
+// =============== APP ====================
+const loadItems = async() => {
+  let response = await axios.get('url siia ');
+  if(response.status >=200 && response.status <300){
+    console.log(response.data);
+    let elem = document.querySelector<HTMLPreElement>('#json-data');
+    if (!elem) throw Error("json-data not found");
+    
+    console.error("json-data not found");
+    elem!.innerHTML = JSON.stringify(response.data, null, 4);
+  }
+}
+
 // =============== MAIN ===================
 
 handleServiceWorker();
+
+loadItems();
