@@ -1,6 +1,6 @@
 'use strict'
 
-const {webpackPluginServe : Serve} = require('webpack-plugin-serve');
+const {WebpackPluginServe : Serve} = require('webpack-plugin-serve');
 const path = require('path');
 
 const options = {
