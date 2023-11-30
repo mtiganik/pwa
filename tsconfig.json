@@ -4,6 +4,7 @@
     "module": "ESNext",
     "target": "ES2017",
     "strict": true,
+    "jsx": "react",
     "alwaysStrict": true,
     "moduleResolution": "Node",
     "experimentalDecorators": true,
