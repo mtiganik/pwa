@@ -17,9 +17,9 @@ module.exports = {
   mode: 'development',
   entry: {
     'app': [
-      './src/app.ts',
       './src/index.tsx',
-      'webpack-plugin-serve/client',
+      // './src/app.ts',
+      // 'webpack-plugin-serve/client',
     ],
   },
   output: {
