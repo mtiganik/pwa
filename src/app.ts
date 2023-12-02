@@ -53,7 +53,7 @@ const handleServiceWorker = async() => {
     console.error('ServiceWorker not detected!');
   }
 }
-let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjNiN2FmNzhiLTJiM2QtNGVlNy01NjFhLTA4ZGJlZDAwMjVkNiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJhYUBhYS5lZSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImFhQGFhLmVlIiwiQXNwTmV0LklkZW50aXR5LlNlY3VyaXR5U3RhbXAiOiJJSjZHSVVLTVhQS1VOUjZZR0NFV09PMkNVN1lCNVBZNCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6ImFhYUBhYWEuZWUiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zdXJuYW1lIjoiZnNmZiIsImV4cCI6MTcwMTM1NzExMiwiaXNzIjoidGFsdGVjaC5ha2F2ZXIuY29tIiwiYXVkIjoidGFsdGVjaC5ha2F2ZXIuY29tIn0.aF-NcmFkLSlmfe8nuMk9UxS1qOrJroZxaQsaxRW9fp8";
+let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjNiN2FmNzhiLTJiM2QtNGVlNy01NjFhLTA4ZGJlZDAwMjVkNiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJhYUBhYS5lZSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImFhQGFhLmVlIiwiQXNwTmV0LklkZW50aXR5LlNlY3VyaXR5U3RhbXAiOiJJSjZHSVVLTVhQS1VOUjZZR0NFV09PMkNVN1lCNVBZNCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6ImFhYUBhYWEuZWUiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zdXJuYW1lIjoiZnNmZiIsImV4cCI6MTcwMTQ0Mzg0NSwiaXNzIjoidGFsdGVjaC5ha2F2ZXIuY29tIiwiYXVkIjoidGFsdGVjaC5ha2F2ZXIuY29tIn0.za-UEvfZh-GreL1ZvEnEQm7uj5uPukuh99QgivQ34jM";
 let url= "https://taltech.akaver.com/api/v1/TodoTasks";
 
 const config = {
@@ -66,9 +66,12 @@ const loadItems = async() => {
   if(response.status >=200 && response.status <300){
     console.log(response.data);
     let elem = document.querySelector<HTMLPreElement>('#json-data');
-    if (!elem) throw Error("json-data not found");
+    if (!elem) {
+      throw Error("json-data not found")
+      console.error("json-data not found");
+    }
     
-    console.error("json-data not found");
+    
     elem!.innerHTML = JSON.stringify(response.data, null, 4);
   }
 }

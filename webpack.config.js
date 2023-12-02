@@ -1,43 +1,43 @@
-'use strict'
+'use strict';
 
-const {WebpackPluginServe : Serve} = require('webpack-plugin-serve');
+const {WebpackPluginServe: Serve} = require('webpack-plugin-serve');
 const path = require('path');
 
 const options = {
   compress: true,
-  client:{
+  client: {
     silent: false,
   },
   port: 8099,
-  static: ['./dist', './public']
-}
+  host: 'localhost', 
+  static: ['./dist', './public'],
+};
 
 module.exports = {
   mode: 'development',
   entry: {
-    'app':[
+    'app': [
       './src/app.ts',
       './src/index.tsx',
-      'webpack-plugin-serve/client'
-    ]
+      'webpack-plugin-serve/client',
+    ],
   },
-  output:{
+  output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
   },
   resolve: {
-    extensions:['.ts', '.js', '.tsx']
+    extensions: ['.ts', '.js', '.tsx'],
   },
-  module:{
+  module: {
     rules: [
       {
         loader: 'ts-loader',
-        test: /\.tsx?$/
-      }
-    ]
+        test: /\.tsx?$/,
+      },
+    ],
   },
-  plugins:[
-    new Serve(options)
+  plugins: [
+    new Serve(options),
   ],
-  //watch: true
-}
+};
