@@ -1,5 +1,5 @@
-import { DBSchema, IDBPDatabase, openDB } from "idb";
-
+// import { DBSchema, IDBPDatabase, openDB } from "idb";
+import {DBSchema, IDBPDatabase, openDB } from "../idb"
 const VERSION = 1;
 const CACHE = "cache_" + VERSION;
 
@@ -100,7 +100,7 @@ const getCachedResponse = async(request: RequestInfo, cache: Cache): Promise<Res
 }
 
 const fetchFn = async(event: FetchEvent): Promise<Response> => {
-  console.log('fetchFn', event.request.url)
+  // console.log('fetchFn', event.request.url)
   const cache = await caches.open(CACHE);
   
 
