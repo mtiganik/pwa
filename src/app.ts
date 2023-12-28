@@ -53,7 +53,10 @@ const handleServiceWorker = async() => {
     console.error('ServiceWorker not detected!');
   }
 }
-let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjNiN2FmNzhiLTJiM2QtNGVlNy01NjFhLTA4ZGJlZDAwMjVkNiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJhYUBhYS5lZSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImFhQGFhLmVlIiwiQXNwTmV0LklkZW50aXR5LlNlY3VyaXR5U3RhbXAiOiJJSjZHSVVLTVhQS1VOUjZZR0NFV09PMkNVN1lCNVBZNCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6ImFhYUBhYWEuZWUiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zdXJuYW1lIjoiZnNmZiIsImV4cCI6MTcwMTU5ODgxNywiaXNzIjoidGFsdGVjaC5ha2F2ZXIuY29tIiwiYXVkIjoidGFsdGVjaC5ha2F2ZXIuY29tIn0.HVncV44QPpO3qJfWBqLEiFWbtOmQbgbFastDPFnAUfg";
+let token = 
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjNiN2FmNzhiLTJiM2QtNGVlNy01NjFhLTA4ZGJlZDAwMjVkNiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJhYUBhYS5lZSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImFhQGFhLmVlIiwiQXNwTmV0LklkZW50aXR5LlNlY3VyaXR5U3RhbXAiOiJJSjZHSVVLTVhQS1VOUjZZR0NFV09PMkNVN1lCNVBZNCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2dpdmVubmFtZSI6ImFhYUBhYWEuZWUiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zdXJuYW1lIjoiZnNmZiIsImV4cCI6MTcwMjczMTM2MCwiaXNzIjoidGFsdGVjaC5ha2F2ZXIuY29tIiwiYXVkIjoidGFsdGVjaC5ha2F2ZXIuY29tIn0.XbhibdcwYF4Zr0-7AgzQtOSYuA17eltpSMtuBbztD2k";
+
+
 let url= "https://taltech.akaver.com/api/v1/TodoTasks";
 
 const config = {
@@ -64,14 +67,15 @@ const config = {
 const loadItems = async() => {
   let response = await axios.get(url,config);
   if(response.status >=200 && response.status <300){
-    let elem = document.querySelector<HTMLPreElement>('#json-data');
-    if (!elem) {
-      console.error("json-data not found");
-      throw Error("json-data not found")
-    }
+    console.log(response.data)
+    // let elem = document.querySelector<HTMLPreElement>('#json-data');
+    // if (!elem) {
+    //   console.error("json-data not found");
+    //   throw Error("json-data not found")
+    // }
     
     
-    elem!.innerHTML = JSON.stringify(response.data, null, 4);
+    // elem!.innerHTML = JSON.stringify(response.data, null, 4);
   }
 }
 

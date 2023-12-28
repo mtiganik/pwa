@@ -7,14 +7,17 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack --watch",
     "build": "tsc --project ./src-sw/tsconfig.json --outDir ./dist && webpack build --mode production",
-    "sw-build": "tsc --project ./src-sw/tsconfig.json --outDir ./dist",
-    "sw-watch": "tsc --project ./src-sw/tsconfig.json --outDir ./dist-watch"
+    "sw-build2": "rmdir /s /q .\\dist && xcopy .\\src-sw\\idb .\\dist\\idb /E /I && tsc --project .\\src-sw\\tsconfig.json --outDir .\\dist",
+    "sw-watch2": "copy ./src-sw/idb ./dist/ && tsc --project ./src-sw/tsconfig.json --outDir ./dist --watch",
+    "sw-build": "del /s /q .\\dist && xcopy .\\src-sw\\idb .\\dist\\idb /E /I && tsc --project .\\src-sw\\tsconfig.json --outDir .\\dist",
+    "sw-watch": "xcopy .\\src-sw\\idb .\\dist\\idb /E /I /Y && tsc --project .\\src-sw\\tsconfig.json --outDir .\\dist --watch"
   },
   "author": "mtiganik",
   "license": "ISC",
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.15.2",
     "@mui/material": "^5.14.19",
     "axios": "^1.6.1",
     "idb": "^7.1.1",

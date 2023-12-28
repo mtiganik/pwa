@@ -14,45 +14,50 @@ const App: React.FC = () => {
 
 const Entry: React.FC = () => {
 
-  const isLoggedIn = true;
   return(
     <Router>
       <Routes>
-        <Route path="/login" element={<Login/>} />
-        <Route path="/register" element={<Register/>} />
-
-        <Route index element={<HomeScreen/>} />
-        <Route path="/categories" element={<CategoryScreen/>} />
-        <Route path="/priorities" element={<PriorityScreen/>} /> 
-
-        
-        <Route index element={<Navigate to={isLoggedIn ? '/home' : '/login'} />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route index element={<PrivateRoute component={HomeScreen} />} />
+        <Route path="/categories" element={<PrivateRoute component={CategoryScreen} />} />
+        <Route path="/priorities" element={<PrivateRoute component={PriorityScreen} />} />
       </Routes>
     </Router>
   )
 }
-{/* <PrivateRoute path="/home" element={<HomeScreen/>} isLoggedIn={isLoggedIn} />
-<PrivateRoute path="/categories" element={<CategoryScreen/>} isLoggedIn={isLoggedIn} />
-<PrivateRoute path="/priorities" element={<PriorityScreen/>} isLoggedIn={isLoggedIn} /> */}
 
-interface PrivateRouteProps {
-  element: React.ReactNode;
-  path: string;
-  isLoggedIn: boolean;
+interface PrivateRouteProps{
+  component: React.ComponentType<any>
 }
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ element: element, isLoggedIn, ...rest }) => (
-  <Route
-    {...rest}
-    element=
-    {isLoggedIn ? (
-      element
-    ) : (
-      <Navigate to="/login" replace={true} />
-    ) 
-    }
-  />
-);
+const PrivateRoute: React.FC<PrivateRouteProps> = ({ component: Component, ...rest }) => {
+
+  const token = localStorage.getItem("token")
+  const isAuthenticated = token !== null
+
+  return isAuthenticated ? <Component {...rest}/> : <Navigate to="/login" />;
+};
+
+
+// interface PrivateRouteProps {
+//   element: React.ReactNode;
+//   path: string;
+//   isLoggedIn: boolean;
+// }
+
+// const PrivateRoute: React.FC<PrivateRouteProps> = ({ element: element, isLoggedIn, ...rest }) => (
+//   <Route
+//     {...rest}
+//     element=
+//     {isLoggedIn ? (
+//       element
+//     ) : (
+//       <Navigate to="/login" replace={true} />
+//     ) 
+//     }
+//   />
+// );
 
 
 export default App;

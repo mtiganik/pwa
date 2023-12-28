@@ -1,6 +1,10 @@
 'use strict';
 
 const {WebpackPluginServe: Serve} = require('webpack-plugin-serve');
+
+const { join } = require('path');
+const outputPath = join(process.cwd(), '/dist');
+
 const path = require('path');
 
 const options = {
@@ -19,12 +23,15 @@ module.exports = {
     'app': [
       './src/index.tsx',
       // './src/app.ts',
-      // 'webpack-plugin-serve/client',
     ],
+    // 'service': 'webpack-plugin-serve/client',
   },
   output: {
-    filename: '[name].js',
-    path: path.resolve(__dirname, 'dist'),
+    path: outputPath,
+    clean: true
+
+    // filename: '[name].js',
+    // path: path.resolve(__dirname, 'dist'),
   },
   resolve: {
     extensions: ['.ts', '.js', '.tsx'],
@@ -39,5 +46,7 @@ module.exports = {
   },
   plugins: [
     new Serve(options),
+    // new Serve({ static: outputPath })
+
   ],
 };
