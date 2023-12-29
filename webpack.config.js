@@ -1,37 +1,17 @@
-'use strict';
-
-const {WebpackPluginServe: Serve} = require('webpack-plugin-serve');
-
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { join } = require('path');
+
 const outputPath = join(process.cwd(), '/dist');
-
-const path = require('path');
-
-const options = {
-  compress: true,
-  client: {
-    silent: false,
-  },
-  port: 8099,
-  host: 'localhost', 
-  static: ['./dist', './public'],
-};
 
 module.exports = {
   mode: 'development',
   entry: {
-    'app': [
-      './src/index.tsx',
-      // './src/app.ts',
-    ],
-    // 'service': 'webpack-plugin-serve/client',
+    'app': ['./src/index.tsx'],
   },
   output: {
     path: outputPath,
-    clean: true
-
-    // filename: '[name].js',
-    // path: path.resolve(__dirname, 'dist'),
+    filename: '[name].bundle.js',
+    publicPath: '/', // this is important for client-side routing
   },
   resolve: {
     extensions: ['.ts', '.js', '.tsx'],
@@ -44,9 +24,16 @@ module.exports = {
       },
     ],
   },
+  devServer: {
+    static: outputPath,
+    compress: true,
+    port: 8099,
+    historyApiFallback: true,
+  },
   plugins: [
-    new Serve(options),
-    // new Serve({ static: outputPath })
-
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
+      filename: 'index.html',
+    }),
   ],
 };
