@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack --watch",
-    "build": "tsc --project ./src-sw/tsconfig.json --outDir ./dist && webpack build --mode production",
+    "start": "webpack serve --mode development",
+    "build": "tsc --project ./tsconfig.json --outDir ./dist && webpack --mode production",
+    "buildPrev": "tsc --project ./tsconfig.json --outDir ./dist && webpack build --mode production",
     "sw-build2": "rmdir /s /q .\\dist && xcopy .\\src-sw\\idb .\\dist\\idb /E /I && tsc --project .\\src-sw\\tsconfig.json --outDir .\\dist",
     "sw-watch2": "copy ./src-sw/idb ./dist/ && tsc --project ./src-sw/tsconfig.json --outDir ./dist --watch",
     "sw-build": "del /s /q .\\dist && xcopy .\\src-sw\\idb .\\dist\\idb /E /I && tsc --project .\\src-sw\\tsconfig.json --outDir .\\dist",
@@ -29,9 +30,11 @@
   "devDependencies": {
     "@types/react": "^18.2.39",
     "@types/react-dom": "^18.2.17",
+    "html-webpack-plugin": "^5.6.0",
     "typescript": "^5.3.2",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1",
     "webpack-nano": "^1.1.1",
     "webpack-plugin-serve": "^1.6.0"
   }
