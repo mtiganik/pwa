@@ -5,6 +5,7 @@ import PriorityScreen from "./home/priorities/priority-home";
 import Login from "./login/login";
 import Register from "./login/register";
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import UserData from "./models/user-data";
 
 const App: React.FC = () => {
   return(
@@ -32,11 +33,10 @@ interface PrivateRouteProps{
 }
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ component: Component, ...rest }) => {
+  
+  const userData: UserData | null = JSON.parse(localStorage.getItem('userData') || 'null');
 
-  const token = localStorage.getItem("token")
-  const isAuthenticated = token !== null
-
-  return isAuthenticated ? <Component {...rest}/> : <Navigate to="/login" />;
+  return userData !== null ? <Component {...rest}/> : <Navigate to="/login" />;
 };
 
 

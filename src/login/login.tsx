@@ -1,12 +1,10 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import { Link as DomLink} from "react-router-dom"
 import MuiLink from '@mui/material/Link';
+import { useNavigate } from 'react-router-dom';
 
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -14,31 +12,60 @@ import LockOutlinedIcon  from '@mui/icons-material/LockOpen';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <MuiLink color="inherit" href="https://kontorirott.ee/">
-        KontoriRotid Lahendavad
-      </MuiLink>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-// TODO remove, this demo shouldn't need to reset the theme.
+import Copyright from './copy-right';
+import GetUrl from '../utils/get-url';
+import axios from 'axios';
+import UserData from '../models/user-data';
 const defaultTheme = createTheme();
 
 export default function Login() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const [email,setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [emailError, setEmailError] = useState(false)
+  const [passwordError, setPasswordError] = useState(false)
+  const [serverError, setServerError] = useState("")
+  const navigate = useNavigate();
+  const validateEmail = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setEmailError(!emailRegex.test(email));
+  }
+
+  const validatePassword = () => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{6,}$/;
+    setPasswordError(!passwordRegex.test(password))
+  }
+
+
+  const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    if( passwordError || emailError){
+      setServerError("Form has errors, please correct them")
+    }else{
+      setServerError("")
+      try{
+        const url = GetUrl()
+        var response = await axios.post(`${url}Account/Login`,{
+          email: email,
+          password: password
+        })
+        response.data.email = email
+
+        localStorage.setItem('userData', JSON.stringify(response.data))
+        navigate('/')
+
+      }catch(error){
+
+        console.error(error);
+        if(axios.isAxiosError(error)){
+          if(error.response && error.response.data && error.response.data.messages)
+          setServerError(error.response.data.messages)
+        }
+      else{
+        setServerError(' An error occured while loggin in.')
+      }
+      }
+    }
+
   };
 
   return (
@@ -59,7 +86,7 @@ export default function Login() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -69,6 +96,11 @@ export default function Login() {
               name="email"
               autoComplete="email"
               autoFocus
+              value = {email}
+              onChange={(e) => setEmail(e.target.value)}
+              onBlur={validateEmail}
+              error={emailError}
+              helperText={emailError ? 'Invalid email address' : ''}
             />
             <TextField
               margin="normal"
@@ -79,7 +111,18 @@ export default function Login() {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              onBlur = {validatePassword}
+              error={passwordError}
+              helperText = { passwordError 
+                ? 'Password must be at least 6 characters and contain at least one uppercase, lowercase, a number and a special character'
+              : ''}
             />
+            <Typography color="red" >
+              {serverError}
+            </Typography>
+
             <Button
               type="submit"
               fullWidth
@@ -92,16 +135,8 @@ export default function Login() {
               <Grid item>
                 <MuiLink href="/register" variant="body2">
                   {"Don't have an account? Sign Up"}
-                {/* <DomLink to="/register"> */}
-                {/* </DomLink> */}
                 </MuiLink>
               </Grid>
-              <Grid item>
-                <DomLink to="/register">
-                  {"Don't have an account2? Sign Up"}
-                </DomLink>
-              </Grid>
-
             </Grid>
           </Box>
         </Box>
