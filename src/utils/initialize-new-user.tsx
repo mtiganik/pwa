@@ -1,0 +1,211 @@
+import axios from "axios"
+import Category from "../models/category"
+import Priority from "../models/priority"
+import Task from "../models/task"
+
+const getDateInFuture = (day: number): Date => {
+  const currentDate = new Date();
+  const futureDate = new Date();
+  futureDate.setDate(currentDate.getDate() + day);
+  return futureDate;
+};
+
+
+const uuidWorkCategory = crypto.randomUUID()
+const uuidScoolCategory = crypto.randomUUID()
+const uuidHomeCategory = crypto.randomUUID()
+const uuidOtherCategory = crypto.randomUUID()
+
+const DefaultCategories:Category[] = [
+  {
+    id: uuidWorkCategory,
+    categoryName: "Work",
+    categorySort: 1,
+    syncDt: new Date().toISOString(),
+    tag: 'work'
+  },
+  {
+    id: uuidScoolCategory,
+    categoryName: "School",
+    categorySort: 2,
+    syncDt: new Date().toISOString(),
+    tag: 'school'
+  },
+  {
+    id: uuidHomeCategory,
+    categoryName: "Home",
+    categorySort: 3,
+    syncDt: new Date().toISOString(),
+    tag: 'home'
+  },
+  {
+    id: uuidOtherCategory,
+    categoryName: "Other",
+    categorySort: 3,
+    syncDt: new Date().toISOString(),
+    tag: 'other'
+  }
+]
+
+const uuidHighPriority= crypto.randomUUID()
+const uuidMediumPriority = crypto.randomUUID()
+const uuidLowPriority = crypto.randomUUID()
+
+const DefaultPriorities:Priority[] = [
+  {
+    id: uuidHighPriority,
+    priorityName: "High",
+    prioritySort: 49,
+    syncDt: new Date().toISOString(),
+    tag: 'high'
+  },  
+  {
+    id: uuidMediumPriority,
+    priorityName: "Medium",
+    prioritySort: 25,
+    syncDt: new Date().toISOString(),
+    tag: 'medium'
+  },
+  {
+    id: uuidLowPriority,
+    priorityName: "Low",
+    prioritySort: 8,
+    syncDt: new Date().toISOString(),
+    tag: 'low'
+  },
+]
+
+const DefaultTasks : Task[] = [
+  {
+    id: crypto.randomUUID(),
+    taskName: "Visit Parents",
+    createdDt: new Date().toISOString(),
+    dueDt: getDateInFuture(10).toISOString(),
+    isCompleted: false,
+    isArchieved: false,
+    todoCategoryId: uuidOtherCategory,
+    todoPriorityId: uuidMediumPriority,
+    syncDt: new Date().toISOString()
+  },
+  {
+    id: crypto.randomUUID(),
+    taskName: "Play guitar",
+    createdDt: new Date().toISOString(),
+    dueDt: getDateInFuture(3).toISOString(),
+    isCompleted: false,
+    isArchieved: false,
+    todoCategoryId: uuidOtherCategory,
+    todoPriorityId: uuidMediumPriority,
+    syncDt: new Date().toISOString()
+  },
+  {
+    id: crypto.randomUUID(),
+    taskName: "Write important email",
+    createdDt: new Date().toISOString(),
+    dueDt: getDateInFuture(1).toISOString(),
+    isCompleted: false,
+    isArchieved: false,
+    todoCategoryId: uuidWorkCategory,
+    todoPriorityId: uuidLowPriority,
+    syncDt: new Date().toISOString()
+  },
+  {
+    id: crypto.randomUUID(),
+    taskName: "Ask more salary",
+    createdDt: new Date().toISOString(),
+    dueDt: getDateInFuture(2).toISOString(),
+    isCompleted: false,
+    isArchieved: false,
+    todoCategoryId: uuidWorkCategory,
+    todoPriorityId: uuidHighPriority,
+    syncDt: new Date().toISOString()
+  },
+  {
+    id: crypto.randomUUID(),
+    taskName: "Talk with Client",
+    createdDt: new Date().toISOString(),
+    dueDt: getDateInFuture(5).toISOString(),
+    isCompleted: false,
+    isArchieved: false,
+    todoCategoryId: uuidWorkCategory,
+    todoPriorityId: uuidMediumPriority,
+    syncDt: new Date().toISOString()
+  },
+  {
+    id: crypto.randomUUID(),
+    taskName: "Clean Laundry",
+    createdDt: new Date().toISOString(),
+    dueDt: getDateInFuture(4).toISOString(),
+    isCompleted: false,
+    isArchieved: false,
+    todoCategoryId: uuidHomeCategory,
+    todoPriorityId: uuidMediumPriority,
+    syncDt: new Date().toISOString()
+  },
+  {
+    id: crypto.randomUUID(),
+    taskName: "Make Lunch",
+    createdDt: new Date().toISOString(),
+    dueDt: getDateInFuture(2).toISOString(),
+    isCompleted: false,
+    isArchieved: false,
+    todoCategoryId: uuidHomeCategory,
+    todoPriorityId: uuidLowPriority,
+    syncDt: new Date().toISOString()
+  },
+  {
+    id: crypto.randomUUID(),
+    taskName: "Fix refridgeator",
+    createdDt: new Date().toISOString(),
+    dueDt: getDateInFuture(2).toISOString(),
+    isCompleted: false,
+    isArchieved: false,
+    todoCategoryId: uuidHomeCategory,
+    todoPriorityId: uuidHighPriority,
+    syncDt: new Date().toISOString()
+  },
+  {
+    id: crypto.randomUUID(),
+    taskName: "Do Math Excercise",
+    createdDt: new Date().toISOString(),
+    dueDt: getDateInFuture(7).toISOString(),
+    isCompleted: false,
+    isArchieved: false,
+    todoCategoryId: uuidScoolCategory,
+    todoPriorityId: uuidMediumPriority,
+    syncDt: new Date().toISOString()
+  },
+  {
+    id: crypto.randomUUID(),
+    taskName: "Learn for exam",
+    createdDt: new Date().toISOString(),
+    dueDt: getDateInFuture(10).toISOString(),
+    isCompleted: false,
+    isArchieved: false,
+    todoCategoryId: uuidScoolCategory,
+    todoPriorityId: uuidHighPriority,
+    syncDt: new Date().toISOString()
+  },
+  {
+    id: crypto.randomUUID(),
+    taskName: "Read book",
+    createdDt: new Date().toISOString(),
+    dueDt: getDateInFuture(8).toISOString(),
+    isCompleted: false,
+    isArchieved: false,
+    todoCategoryId: uuidScoolCategory,
+    todoPriorityId: uuidLowPriority,
+    syncDt: new Date().toISOString(),
+  },
+
+
+
+]
+
+export default function InitializeNewUserData () {
+  crypto.randomUUID()
+  const myUuid = crypto.randomUUID()
+  console.log(myUuid)
+  console.log(crypto.randomUUID())
+  console.log(crypto.randomUUID())
+}
