@@ -2,7 +2,10 @@ import React, {useState} from "react"
 import { Container,Link, CssBaseline, Box, Avatar, Typography, TextField,Button, Grid } from "@mui/material";
 import Copyright from "./copy-right";
 import LockOutlinedIcon from '@mui/icons-material/LockOpen';
- 
+import axios from "axios";
+import GetUrl from "../utils/get-url";
+import { useNavigate } from "react-router-dom";
+
 export default function Register() {
   const [email,setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -11,13 +14,13 @@ export default function Register() {
   const [passwordError, setPasswordError] = useState(false)
   const [confirmPasswordError, setConfirmPasswordError] = useState(false)
   const [serverError, setServerError] = useState("")
-
+  const navigate = useNavigate();
   const validateEmail = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     setEmailError(!emailRegex.test(email));
   }
   const validateConfirmPassword = () => {
-    setConfirmPasswordError(confirmPassword === password)
+    setConfirmPasswordError(confirmPassword !== password)
   }
 
   const validatePassword = () => {
@@ -25,13 +28,42 @@ export default function Register() {
     setPasswordError(!passwordRegex.test(password))
   }
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    if(passwordError || emailError || confirmPasswordError){
+      setServerError("Form has errors, please correct them")
+    }else{
+      setServerError("")
+      const data = new FormData(event.currentTarget);
+      try{
+        const url = GetUrl();
+        var response = await axios.post(`${url}Account/Register`,{
+          email: email,
+          password: password,
+          firstName: data.get("firstName"),
+          lastName: data.get("lastName")
+        })
+        response.data.email = email
+        localStorage.setItem('userData', JSON.stringify(response.data))
+        // TODO: Initialize new user data
+        // initializeNewUserData()
+        navigate('/')
+      }catch(error){
+        console.error(error);
+        if(axios.isAxiosError(error)){
+          if(error.response && error.response.data && error.response.data.messages)
+          setServerError(error.response.data.messages)
+        }
+        else{
+          setServerError(' An error occured while loggin in.')
+        }
+      }
+
+      console.log({
+        firstName: data.get('firstName'),
+        lastName: data.get('lastName'),
+      });
+    }
   };
 
   return (
@@ -96,7 +128,6 @@ export default function Register() {
               label="Password"
               type="password"
               id="password"
-              autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               onBlur = {validatePassword}
@@ -112,8 +143,6 @@ export default function Register() {
               name="confirmPassword"
               label="Confirm Password"
               type="password"
-              id="confirmPassword"
-              autoComplete="current-password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               onBlur = {validateConfirmPassword}
@@ -123,6 +152,9 @@ export default function Register() {
               : ''}
 
             />
+            <Typography color="red">
+              {serverError}
+            </Typography>
 
             <Button
               type="submit"
