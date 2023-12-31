@@ -60,9 +60,9 @@ export default function Login() {
           if(error.response && error.response.data && error.response.data.messages)
           setServerError(error.response.data.messages)
         }
-      else{
-        setServerError(' An error occured while loggin in.')
-      }
+        else{
+          setServerError(' An error occured while loggin in.')
+        }
       }
     }
 
