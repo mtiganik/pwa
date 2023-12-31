@@ -5,6 +5,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOpen';
 import axios from "axios";
 import GetUrl from "../utils/get-url";
 import { useNavigate } from "react-router-dom";
+import InitializeNewUserData from "../utils/initialize-new-user";
 
 export default function Register() {
   const [email,setEmail] = useState("")
@@ -29,6 +30,7 @@ export default function Register() {
   }
 
   const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
+
     event.preventDefault();
     if(passwordError || emailError || confirmPasswordError){
       setServerError("Form has errors, please correct them")
@@ -44,10 +46,10 @@ export default function Register() {
           lastName: data.get("lastName")
         })
         response.data.email = email
-        localStorage.setItem('userData', JSON.stringify(response.data))
-        // TODO: Initialize new user data
-        // initializeNewUserData()
-        navigate('/')
+        // localStorage.setItem('userData', JSON.stringify(response.data))
+
+        InitializeNewUserData()
+        // navigate('/')
       }catch(error){
         console.error(error);
         if(axios.isAxiosError(error)){
