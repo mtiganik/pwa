@@ -6,13 +6,18 @@ import LockOutlinedIcon from '@mui/icons-material/LockOpen';
 export default function Register() {
   const [email,setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
   const [emailError, setEmailError] = useState(false)
   const [passwordError, setPasswordError] = useState(false)
+  const [confirmPasswordError, setConfirmPasswordError] = useState(false)
   const [serverError, setServerError] = useState("")
 
   const validateEmail = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     setEmailError(!emailRegex.test(email));
+  }
+  const validateConfirmPassword = () => {
+    setConfirmPasswordError(confirmPassword === password)
   }
 
   const validatePassword = () => {
@@ -77,6 +82,11 @@ export default function Register() {
               name="email"
               autoComplete="email"
               autoFocus
+              value = {email}
+              onChange={(e) => setEmail(e.target.value)}
+              onBlur={validateEmail}
+              error={emailError}
+              helperText={emailError ? 'Invalid email address' : ''}
             />
             <TextField
               margin="normal"
@@ -87,7 +97,33 @@ export default function Register() {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              onBlur = {validatePassword}
+              error={passwordError}
+              helperText = { passwordError 
+                ? 'Password must be at least 6 characters and contain at least one uppercase, lowercase, a number and a special character'
+              : ''}
             />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="confirmPassword"
+              label="Confirm Password"
+              type="password"
+              id="confirmPassword"
+              autoComplete="current-password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              onBlur = {validateConfirmPassword}
+              error={confirmPasswordError}
+              helperText = { confirmPasswordError 
+                ? 'Passwords dont match'
+              : ''}
+
+            />
+
             <Button
               type="submit"
               fullWidth
@@ -109,18 +145,3 @@ export default function Register() {
       </Container>
   );
 }
-
-
-// const Register: React.FC = () => {
-
-//   return(
-//     <div>
-//       <h1>Register page</h1>
-//       <nav>
-//         <Link to="/login">Login instead</Link>
-//       </nav>
-//     </div>
-//   )
-// }
-
-// export default Register;

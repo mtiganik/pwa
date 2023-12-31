@@ -12,7 +12,6 @@ const App: React.FC = () => {
     <Entry/> 
 )
 }
-
 const Entry: React.FC = () => {
 
   return(
@@ -39,25 +38,6 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ component: Component, ...re
   return userData !== null ? <Component {...rest}/> : <Navigate to="/login" />;
 };
 
-
-// interface PrivateRouteProps {
-//   element: React.ReactNode;
-//   path: string;
-//   isLoggedIn: boolean;
-// }
-
-// const PrivateRoute: React.FC<PrivateRouteProps> = ({ element: element, isLoggedIn, ...rest }) => (
-//   <Route
-//     {...rest}
-//     element=
-//     {isLoggedIn ? (
-//       element
-//     ) : (
-//       <Navigate to="/login" replace={true} />
-//     ) 
-//     }
-//   />
-// );
 
 
 export default App;
