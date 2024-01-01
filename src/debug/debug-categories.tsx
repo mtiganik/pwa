@@ -5,9 +5,10 @@ import {getAllCategories, getCategoryById, postCategory,editCategory,deleteCateg
 import Category from "../models/category";
 import { } from "../service/utils";
 
+export const catId = "9e1ea4f2-108e-420c-bcd8-8b3d9ac683a5"
 const cat1:Category = 
 {
-    id: "9e1ea3f2-108e-420c-bcd8-8b3d9ac683a5",
+    id: catId,
     categoryName: "Home",
     categorySort: 3,
     syncDt: new Date().toISOString(),

@@ -3,9 +3,12 @@ import { Link } from "react-router-dom"
 import { Button } from "@mui/material"
 import { getAllPriorities,getPriorityById,postPriority,editPriority,deletePriority } from "../service/priority-service"
 import Priority from "../models/priority"
+
+export const priId = "2339d796-bc6f-47a4-bdb9-3490483a3d81"
+
 const pri1:Priority = 
 {
-    id: "2339d795-bc6f-47a4-bdb9-3490483a3d81",
+    id: priId,
     priorityName: "High",
     prioritySort: 60,
     syncDt: new Date().toISOString(),

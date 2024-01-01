@@ -2,17 +2,19 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { getAllTasks, getTaskById, postTask, editTask,deleteTask } from '../service/task-service';
+import { catId } from './debug-categories';
+import { priId } from './debug-priorities';
 import Task from '../models/task';
 
 const task1: Task = {
-  id: "a62cdd9c-d7eb-44d9-a4dc-2787a935641b",
+  id: "a62cdd9c-d7eb-44d9-a4dc-2487a935641b",
   taskName: "Write important email",
   createdDt: new Date().toISOString(),
   dueDt: new Date().toISOString(),
   isCompleted: false,
   isArchieved: false,
-  todoCategoryId: "9e1ea3f2-108e-420c-bcd8-8b3d9ac683a5",
-  todoPriorityId: "2339d795-bc6f-47a4-bdb9-3490483a3d81",
+  todoCategoryId: catId,
+  todoPriorityId: priId,
   syncDt: new Date().toISOString()
 }
 
