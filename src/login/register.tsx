@@ -46,10 +46,10 @@ export default function Register() {
           lastName: data.get("lastName")
         })
         response.data.email = email
-        // localStorage.setItem('userData', JSON.stringify(response.data))
+        localStorage.setItem('userData', JSON.stringify(response.data))
 
         InitializeNewUserData()
-        // navigate('/')
+        navigate('/')
       }catch(error){
         console.error(error);
         if(axios.isAxiosError(error)){
@@ -60,11 +60,6 @@ export default function Register() {
           setServerError(' An error occured while loggin in.')
         }
       }
-
-      console.log({
-        firstName: data.get('firstName'),
-        lastName: data.get('lastName'),
-      });
     }
   };
 

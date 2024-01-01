@@ -2,6 +2,9 @@ import axios from "axios"
 import Category from "../models/category"
 import Priority from "../models/priority"
 import Task from "../models/task"
+import { postCategory } from "../service/category-service"
+import { postPriority } from "../service/priority-service"
+import { postTask } from "../service/task-service"
 
 const getDateInFuture = (day: number): Date => {
   const currentDate = new Date();
@@ -9,7 +12,6 @@ const getDateInFuture = (day: number): Date => {
   futureDate.setDate(currentDate.getDate() + day);
   return futureDate;
 };
-
 
 const uuidWorkCategory = crypto.randomUUID()
 const uuidScoolCategory = crypto.randomUUID()
@@ -202,10 +204,54 @@ const DefaultTasks : Task[] = [
 
 ]
 
-export default function InitializeNewUserData () {
-  crypto.randomUUID()
-  const myUuid = crypto.randomUUID()
-  console.log(myUuid)
-  console.log(crypto.randomUUID())
-  console.log(crypto.randomUUID())
+const InitializeNewUserData = async() => {
+  try {
+    await Promise.all(
+      DefaultCategories.map(async (category) => {
+        try {
+          await postCategory(category)
+
+        } catch (categoryError) {
+          console.error("Error creating category:", categoryError)
+        }}))
+    console.log("Created initial categories")
+    await Promise.all(
+        DefaultPriorities.map(async (priority) => {
+        try {
+          await postPriority(priority)
+
+        } catch (priorityError) {
+          console.error("Error creating priority: ", priorityError)
+        }
+      })
+    )
+    console.log("Created initial priorities")
+
+  } catch (error) {
+    console.log(error)
+  }
+
+  console.log("Start of initializing some todos")
+
+  try{
+    await Promise.all(
+      DefaultTasks.map(async (task) => {
+        try {
+          await postTask(task)
+
+        } catch (taskError) {
+          
+          if(axios.isAxiosError(taskError)){
+            if(taskError.response && taskError.response.data && taskError.response.data.messages)
+            console.error("Task creation failed with status code:", taskError.response.status);
+          }
+          console.error("Error creating tasks: ", taskError)
+        }})
+    )
+  }catch(promiseError){
+    console.error("Error initializing tasks: ", promiseError)
+  }
+  console.log("Created Todo Tasks Initial Values")
 }
+
+export default InitializeNewUserData;
