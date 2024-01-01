@@ -1,12 +1,12 @@
 import Category from "../models/category";
 import axios from "axios";
-import {getAuthorizationHeader,handle401Error } from "./utils";
+import {getAuthorizationHeader } from "./utils";
 import GetUrl from "../utils/get-url";
 
 const url = GetUrl() + "TodoCategories"
 const contentType = {'Content-Type': 'application/json'}
-
 const AuthHeader = getAuthorizationHeader();
+
 export const getAllCategories = async(): Promise<Category[]> => {
   try{
     var response = await axios.get(url, {headers:{...AuthHeader,...contentType}})
