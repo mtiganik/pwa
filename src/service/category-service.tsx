@@ -5,10 +5,10 @@ import GetUrl from "../utils/get-url";
 
 const url = GetUrl() + "TodoCategories"
 const contentType = {'Content-Type': 'application/json'}
-const AuthHeader = getAuthorizationHeader();
 
 export const getAllCategories = async(): Promise<Category[]> => {
   try{
+    const AuthHeader = getAuthorizationHeader();
     var response = await axios.get(url, {headers:{...AuthHeader,...contentType}})
     return response.data
   }catch(error){
@@ -19,6 +19,7 @@ export const getAllCategories = async(): Promise<Category[]> => {
 }
 export const getCategoryById = async(catId: string): Promise<Category | null> => {
   try{
+    const AuthHeader = getAuthorizationHeader();
     var response = await axios.get(`${url}/${catId}`,
     {headers:{...AuthHeader,...contentType}})
     return response.data
@@ -30,6 +31,7 @@ export const getCategoryById = async(catId: string): Promise<Category | null> =>
 
 export const postCategory = async( cat: Category): Promise<number> => {
   try{
+    const AuthHeader = getAuthorizationHeader();
     var response = await axios.post(url,cat, {headers:{...AuthHeader,...contentType}})
     return response.status
   }catch(error){
@@ -40,6 +42,7 @@ export const postCategory = async( cat: Category): Promise<number> => {
 
 export const editCategory = async(cat: Category): Promise<number> => {
   try{
+    const AuthHeader = getAuthorizationHeader();
     const id = cat.id
     var response = await axios.put(`${url}/${id}`,cat,{headers:{...AuthHeader,...contentType}})
     console.log(response.data)
@@ -52,6 +55,7 @@ export const editCategory = async(cat: Category): Promise<number> => {
 
 export const deleteCategory = async(catId: string): Promise<number> => {
   try{
+    const AuthHeader = getAuthorizationHeader();
     var response = await axios.delete(`${url}/${catId}`,{headers:{...AuthHeader,...contentType}})
     return response.status
   }catch(error){

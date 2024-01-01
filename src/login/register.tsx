@@ -47,8 +47,7 @@ export default function Register() {
         })
         response.data.email = email
         localStorage.setItem('userData', JSON.stringify(response.data))
-
-        InitializeNewUserData()
+        await InitializeNewUserData()
         navigate('/')
       }catch(error){
         console.error(error);

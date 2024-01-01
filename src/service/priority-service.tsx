@@ -5,10 +5,10 @@ import GetUrl from "../utils/get-url";
 
 const url = GetUrl() + "TodoPriorities"
 const contentType = {'Content-Type': 'application/json'}
-const AuthHeader = getAuthorizationHeader();
 
 export const getAllPriorities = async(): Promise<Priority[]> => {
   try{
+    const AuthHeader = getAuthorizationHeader();
     var response = await axios.get(url,{headers:{...AuthHeader,...contentType}})
     return response.data
   }catch(error){
@@ -19,6 +19,7 @@ export const getAllPriorities = async(): Promise<Priority[]> => {
 
 export const getPriorityById = async(priorityId: string): Promise<Priority | null> => {
   try{
+    const AuthHeader = getAuthorizationHeader();
     var response = await axios.get(`${url}/${priorityId}`,{headers:{...AuthHeader,...contentType}})
     return response.data
   }catch(error){
@@ -29,6 +30,7 @@ export const getPriorityById = async(priorityId: string): Promise<Priority | nul
 
 export const postPriority = async(pri: Priority): Promise<number> => {
   try{
+    const AuthHeader = getAuthorizationHeader();
     var response = await axios.post(url,pri,{headers:{...AuthHeader,...contentType}})
     return response.status
   }catch(error){
@@ -39,6 +41,7 @@ export const postPriority = async(pri: Priority): Promise<number> => {
 
 export const editPriority = async(pri: Priority): Promise<number> => {
   try{
+    const AuthHeader = getAuthorizationHeader();
     const priId = pri.id
     var response = await axios.put(`${url}/${priId}`,pri,{headers:{...AuthHeader,...contentType}})
     return response.status
@@ -50,6 +53,7 @@ export const editPriority = async(pri: Priority): Promise<number> => {
 
 export const deletePriority = async(priId: string): Promise<number> => {
   try{
+    const AuthHeader = getAuthorizationHeader();
     var response = await axios.delete(`${url}/${priId}`,{headers:{...AuthHeader,...contentType}})
     return response.status
   }catch(error){
