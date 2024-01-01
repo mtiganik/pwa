@@ -10,7 +10,6 @@ const AuthHeader = getAuthorizationHeader();
 export const getAllCategories = async(): Promise<Category[]> => {
   try{
     var response = await axios.get(url, {headers:{...AuthHeader,...contentType}})
-    if(response.status === 401) {handle401Error()}
     return response.data
   }catch(error){
     console.error("Error getting categories:", error)
@@ -18,32 +17,45 @@ export const getAllCategories = async(): Promise<Category[]> => {
   }
   return []
 }
-export const getCategoryById = async(catId: string): Promise<Category> => {
+export const getCategoryById = async(catId: string): Promise<Category | null> => {
   try{
     var response = await axios.get(`${url}/${catId}`,
-    {headers:{...AuthHeader}})
+    {headers:{...AuthHeader,...contentType}})
     return response.data
   }catch(error){
     console.error("Error getting category: ", error)
-    return Promise.reject(error)
+    return null
   }
 }
 
 export const postCategory = async( cat: Category): Promise<number> => {
-  // try{
-  //   const AuthHeader = getAuthorizationHeader()
-  //   var response = await axios.post(url,
-  //     )
-  // }catch(error){
-
-  // }
+  try{
+    var response = await axios.post(url,cat, {headers:{...AuthHeader,...contentType}})
+    return response.status
+  }catch(error){
+    console.log("Error posting category:",error)
+  }
   return 0
 }
 
 export const editCategory = async(cat: Category): Promise<number> => {
-  return 0
+  try{
+    const id = cat.id
+    var response = await axios.put(`${url}/${id}`,cat,{headers:{...AuthHeader,...contentType}})
+    console.log(response.data)
+    return response.status
+  }catch(error){
+    console.error("Error updating category", error)
+    return 0
+  }
 }
 
 export const deleteCategory = async(catId: string): Promise<number> => {
-  return 0
+  try{
+    var response = await axios.delete(`${url}/${catId}`,{headers:{...AuthHeader,...contentType}})
+    return response.status
+  }catch(error){
+    console.error("Error deleting category", error)
+    return 0
+  }
 }

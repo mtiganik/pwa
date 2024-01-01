@@ -7,7 +7,7 @@ import { } from "../../service/utils";
 
 const cat1:Category = 
 {
-    id: crypto.randomUUID(),
+    id: "9e1ea3f2-108e-420c-bcd8-8b3d9ac683a5",
     categoryName: "Home",
     categorySort: 3,
     syncDt: new Date().toISOString(),
@@ -23,7 +23,7 @@ const CategoryScreen: React.FC = () => {
 
 
   const handleGetById = async() => {
-    var response = await getCategoryById("1e3493d4-cc39-441b-81c8-86cf995cadd8")
+    var response = await getCategoryById("i1e3493d4-cc39-441b-81c8-86cf995cadd8")
     console.log(response)
   }
 
