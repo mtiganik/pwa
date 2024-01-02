@@ -231,8 +231,6 @@ const InitializeNewUserData = async() => {
     console.log(error)
   }
 
-  console.log("Start of initializing some todos")
-
   try{
     await Promise.all(
       DefaultTasks.map(async (task) => {
