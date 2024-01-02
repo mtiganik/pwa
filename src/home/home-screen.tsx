@@ -6,16 +6,30 @@ import DebugTasks from '../debug/debug-tasks';
 
 import React, {useEffect,useState} from 'react';
 import { getAllTasks } from '../service/task-service';
+import { getAllCategories } from '../service/category-service';
+import { getAllPriorities } from '../service/priority-service';
+import Priority from '../models/priority';
+import Category from '../models/category';
 
 const HomeScreen: React.FC = () => {
 
+  const [categories, setCategories] = useState<Category[]>([])
+  const [priorities, setPriorities] = useState<Priority[]>([])
   const [tasks, setTasks] = useState<Task[]>([])
-
   useEffect(() => {
     const fetchTasks = async() => {
       try{
-        const response = await getAllTasks()
-        setTasks(response)
+        const [categoriesResponse, prioritiesResponse, taskResponse] =
+        await Promise.all([
+          getAllCategories(),
+          getAllPriorities(),
+          getAllTasks(),
+        ])
+        if(categoriesResponse && prioritiesResponse && taskResponse){
+          setCategories(categoriesResponse)
+          setPriorities(prioritiesResponse)
+          setTasks(taskResponse)
+        }
       }catch(error){
         console.log(error)
     }
@@ -35,15 +49,31 @@ const HomeScreen: React.FC = () => {
           </li>
         </ul>
       </nav>
-      <DebugCategories />
+      {/* <DebugCategories />
       <DebugPriorities /> 
-      <DebugTasks />
-      <ul>
+      <DebugTasks /> */}
+      <div>
+        {categories &&
+          categories.map((category) => (
+            <div key={category.id}>
+              {category.categoryName}</div>
+          ))}
+      </div>
+      <div>
+        {priorities &&
+          priorities.map((priority) => (
+            <div key={priority.id}>
+              {priority.priorityName}</div>
+          ))}
+      </div>
+      <div>
         {tasks &&
           tasks.map((task) => (
-            <li key={task.id}>{task.taskName}</li>
+            <div key={task.id}>
+              {task.taskName}</div>
           ))}
-      </ul>
+      </div>
+
     </div>
   )
 }
