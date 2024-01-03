@@ -39,17 +39,14 @@ const HomeScreen: React.FC = () => {
   }, [setTasks])
 
 const updateTask = (taskToUpdate: Task) => {
-
-  console.log("Updating ", taskToUpdate.taskName, "IsDone: ", taskToUpdate.isCompleted)
   const updatedTask = tasks.map((task) => 
   task.id === taskToUpdate.id ? taskToUpdate : task)
-
   setTasks(updatedTask)
 }
 
 const deleteTask = (taskToDelete: Task) => {
-  console.log("On task delete")
-
+  const updatedTask = tasks.filter((task) => task.id !== taskToDelete.id)
+  setTasks(updatedTask)
 }
 
 const getCategoryById = (categoryId: string): Category | undefined => {
