@@ -10,6 +10,7 @@ import { getAllCategories } from '../service/category-service';
 import { getAllPriorities } from '../service/priority-service';
 import Priority from '../models/priority';
 import Category from '../models/category';
+import TaskListItem from './task-list-item';
 
 const HomeScreen: React.FC = () => {
 
@@ -32,10 +33,27 @@ const HomeScreen: React.FC = () => {
         }
       }catch(error){
         console.log(error)
-    }
-    }
+    }}
     fetchTasks()
   }, [])
+
+const updateTask = (taskToUpdate: Task) => {
+  console.log("On task update")
+}
+
+const deleteTask = (taskToDelete: Task) => {
+  console.log("On task delete")
+
+}
+
+const getCategoryById = (categoryId: string): Category | undefined => {
+  return categories.find(category => category.id === categoryId)
+}
+const getPriorityById = (priorityId: string): Priority | undefined => {
+  return priorities.find(priority => priority.id === priorityId)
+}
+
+
   return(
     <div>
       <h1>Todo App</h1>
@@ -49,29 +67,20 @@ const HomeScreen: React.FC = () => {
           </li>
         </ul>
       </nav>
-      {/* <DebugCategories />
-      <DebugPriorities /> 
-      <DebugTasks /> */}
       <div>
-        {categories &&
-          categories.map((category) => (
-            <div key={category.id}>
-              {category.categoryName}</div>
-          ))}
-      </div>
-      <div>
-        {priorities &&
-          priorities.map((priority) => (
-            <div key={priority.id}>
-              {priority.priorityName}</div>
-          ))}
-      </div>
-      <div>
-        {tasks &&
-          tasks.map((task) => (
-            <div key={task.id}>
-              {task.taskName}</div>
-          ))}
+        {tasks.length > 0 && categories.length > 0 && priorities.length > 0 &&(
+          tasks.map((currTask) => (
+            <div key={currTask.id}>
+              <TaskListItem
+              task = {currTask}
+              taskCategory = {getCategoryById(currTask.todoCategoryId)}
+              taskPriority={getPriorityById(currTask.todoPriorityId)}
+              onDelete={() => deleteTask(currTask)}
+              onUpdate ={() => updateTask(currTask)}
+              />
+              </div>
+          ))
+        )}
       </div>
 
     </div>
