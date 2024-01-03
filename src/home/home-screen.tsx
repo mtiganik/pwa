@@ -18,6 +18,7 @@ const HomeScreen: React.FC = () => {
   const [priorities, setPriorities] = useState<Priority[]>([])
   const [tasks, setTasks] = useState<Task[]>([])
   useEffect(() => {
+    console.log("In useEffect")
     const fetchTasks = async() => {
       try{
         const [categoriesResponse, prioritiesResponse, taskResponse] =
@@ -35,10 +36,15 @@ const HomeScreen: React.FC = () => {
         console.log(error)
     }}
     fetchTasks()
-  }, [])
+  }, [setTasks])
 
 const updateTask = (taskToUpdate: Task) => {
-  console.log("On task update")
+
+  console.log("Updating ", taskToUpdate.taskName, "IsDone: ", taskToUpdate.isCompleted)
+  const updatedTask = tasks.map((task) => 
+  task.id === taskToUpdate.id ? taskToUpdate : task)
+
+  setTasks(updatedTask)
 }
 
 const deleteTask = (taskToDelete: Task) => {
@@ -56,17 +62,7 @@ const getPriorityById = (priorityId: string): Priority | undefined => {
 
   return(
     <div>
-      <h1>Todo App</h1>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/categories">Categories</Link>
-          </li>
-          <li>
-            <Link to="/priorities">Priorities</Link>
-          </li>
-        </ul>
-      </nav>
+      <span><h1>Todo App</h1><Link to="/categories">Categories</Link><Link to="/priorities">Priorities</Link> </span>
       <div>
         {tasks.length > 0 && categories.length > 0 && priorities.length > 0 &&(
           tasks.map((currTask) => (
