@@ -6,6 +6,8 @@ import Login from "./login/login";
 import Register from "./login/register";
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import UserData from "./models/user-data";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 const App: React.FC = () => {
   return(
@@ -15,6 +17,7 @@ const App: React.FC = () => {
 const Entry: React.FC = () => {
 
   return(
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
@@ -24,6 +27,8 @@ const Entry: React.FC = () => {
         <Route path="/priorities" element={<PrivateRoute component={PriorityScreen} />} />
       </Routes>
     </Router>
+    </LocalizationProvider>
+
   )
 }
 

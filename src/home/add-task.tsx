@@ -3,18 +3,8 @@ import Category from "../models/category";
 import Priority from "../models/priority";
 import Task from "../models/task";
 import { Grid, Box, FormControl, Button, Select, SelectChangeEvent, MenuItem, InputLabel,TextField, Typography } from "@mui/material";
-import { Form } from "react-router-dom";
-const task1:Task = {
-  id: "crypto.randomUUID()",
-  taskName: "Visit Parents",
-  createdDt: new Date().toISOString(),
-  dueDt: new Date().toISOString(),
-  isCompleted: false,
-  isArchieved: false,
-  todoCategoryId: "dsasd",
-  todoPriorityId: "fdsfdsf",
-  syncDt: new Date().toISOString()
-}
+import { DatePicker } from "@mui/x-date-pickers";
+import {Dayjs} from "dayjs";
 
 interface AddTaskListProps{
   catList: Category[],
@@ -26,10 +16,13 @@ const AddTaskView:React.FC<AddTaskListProps> =({catList,priList, onAdd}) => {
   const [taskName, setTaskName] = useState("")
   const [catId,setCatId] = useState("")
   const [priId, setPriId] = useState("")
-  const [dueDt, setDueDt] = useState("")
+  const [dueDt, setDueDt] = useState<Dayjs | null>(null)
 
     const handleAdd = () => {
-      // onAdd(task1)
+      console.log("Add clicked")
+      console.log("Category",catId)
+      console.log("Priority",priId)
+      console.log("dueDate:",dueDt?.format())
     }
     const handleCategoryChange = (event: SelectChangeEvent) => {
       const selectedCatId = event.target.value as string
@@ -55,9 +48,9 @@ const AddTaskView:React.FC<AddTaskListProps> =({catList,priList, onAdd}) => {
         alignItems: 'center',
       }}
     >
-        <Typography component="h1" variant="h5">
-            Add Task
-          </Typography>
+        <Typography component="h1" variant="h5"> Add Task</Typography>
+        <Typography>Enter Task name</Typography>
+
         <TextField 
           sx={{width:256}}
           label="Task name:"
@@ -65,8 +58,7 @@ const AddTaskView:React.FC<AddTaskListProps> =({catList,priList, onAdd}) => {
           required
           onChange={(e) => setTaskName(e.target.value)}
         />
-        <Box id="Category-Select">
-        <InputLabel id="category-select">Select Category</InputLabel>
+        <Typography>Select Category</Typography>
         <FormControl>
         <InputLabel id="category-select">Select Category</InputLabel>
         <Select
@@ -82,10 +74,8 @@ const AddTaskView:React.FC<AddTaskListProps> =({catList,priList, onAdd}) => {
             )}
         </Select>
         </FormControl>
-        </Box>
 
-        <Box id="Priority Select">
-        <InputLabel id="priority-select">Select Priority</InputLabel>
+        <Typography>Select Priority</Typography>
         <FormControl>
         <InputLabel id="priority-select">Select Priority</InputLabel>
         <Select
@@ -101,8 +91,13 @@ const AddTaskView:React.FC<AddTaskListProps> =({catList,priList, onAdd}) => {
             )}
         </Select>
         </FormControl>
-        </Box>
 
+        <Typography>Select Due date</Typography>
+      <DatePicker 
+      label = "Select due date"
+      value={dueDt}
+      onChange={(newValue) => setDueDt(newValue)}
+      />
       <Button type="submit" onClick={handleAdd}>Add new</Button>
       </Box>
 
