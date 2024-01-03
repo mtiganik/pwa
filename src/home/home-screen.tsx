@@ -11,12 +11,14 @@ import { getAllPriorities } from '../service/priority-service';
 import Priority from '../models/priority';
 import Category from '../models/category';
 import TaskListItem from './task-list-item';
-
+import { Grid, Typography, Button, Link as MuiLink } from '@mui/material';
 const HomeScreen: React.FC = () => {
 
   const [categories, setCategories] = useState<Category[]>([])
   const [priorities, setPriorities] = useState<Priority[]>([])
   const [tasks, setTasks] = useState<Task[]>([])
+  const [editVisible, setEditVisible] = useState(false)
+
   useEffect(() => {
     console.log("In useEffect")
     const fetchTasks = async() => {
@@ -56,10 +58,19 @@ const getPriorityById = (priorityId: string): Priority | undefined => {
   return priorities.find(priority => priority.id === priorityId)
 }
 
+const handleAddBtn = () => {
+  setEditVisible(!editVisible)
+}
 
   return(
     <div>
-      <span><h1>Todo App</h1><Link to="/categories">Categories</Link><Link to="/priorities">Priorities</Link> </span>
+      <h1>Todo App</h1>
+      <MuiLink href="/categories">CATEGORIES</MuiLink><span> | </span>
+      <MuiLink href="/priorities">PRIORITIES</MuiLink><span> | </span> 
+      <Button onClick = {handleAddBtn}>Add new </Button>
+      {editVisible &&
+    <div>Hello edit page</div>
+    }
       <div>
         {tasks.length > 0 && categories.length > 0 && priorities.length > 0 &&(
           tasks.map((currTask) => (
