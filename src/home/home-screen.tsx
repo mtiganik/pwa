@@ -12,12 +12,14 @@ import Priority from '../models/priority';
 import Category from '../models/category';
 import TaskListItem from './task-list-item';
 import { Grid, Typography, Button, Link as MuiLink } from '@mui/material';
+import AddTaskView from './add-task';
+
 const HomeScreen: React.FC = () => {
 
   const [categories, setCategories] = useState<Category[]>([])
   const [priorities, setPriorities] = useState<Priority[]>([])
   const [tasks, setTasks] = useState<Task[]>([])
-  const [editVisible, setEditVisible] = useState(false)
+  const [addVisible, setAddVisible] = useState(false)
 
   useEffect(() => {
     console.log("In useEffect")
@@ -51,6 +53,10 @@ const deleteTask = (taskToDelete: Task) => {
   setTasks(updatedTask)
 }
 
+const addTask = (taskToAdd:Task) => {
+  // TODO: implement method
+  console.log("add new todo")
+}
 const getCategoryById = (categoryId: string): Category | undefined => {
   return categories.find(category => category.id === categoryId)
 }
@@ -58,18 +64,26 @@ const getPriorityById = (priorityId: string): Priority | undefined => {
   return priorities.find(priority => priority.id === priorityId)
 }
 
-const handleAddBtn = () => {
-  setEditVisible(!editVisible)
-}
 
+const handleNewTask = (taskToAdd:Task) => {
+  console.log(taskToAdd)
+}
+const handleAddBtnClick = () => {
+  setAddVisible(!addVisible)
+}
   return(
     <div>
+
       <h1>Todo App</h1>
       <MuiLink href="/categories">CATEGORIES</MuiLink><span> | </span>
       <MuiLink href="/priorities">PRIORITIES</MuiLink><span> | </span> 
-      <Button onClick = {handleAddBtn}>Add new </Button>
-      {editVisible &&
-    <div>Hello edit page</div>
+      <Button onClick = {handleAddBtnClick}>Add new </Button>
+      {addVisible &&
+      <AddTaskView 
+      catList={categories} 
+      priList={priorities}
+      onAdd={(newTask) => handleNewTask(newTask)}
+      />
     }
       <div>
         {tasks.length > 0 && categories.length > 0 && priorities.length > 0 &&(
