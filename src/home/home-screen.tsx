@@ -19,7 +19,7 @@ const HomeScreen: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([])
   const [priorities, setPriorities] = useState<Priority[]>([])
   const [tasks, setTasks] = useState<Task[]>([])
-  const [addVisible, setAddVisible] = useState(false)
+  const [addVisible, setAddVisible] = useState(true)
 
   useEffect(() => {
     console.log("In useEffect")
@@ -79,16 +79,18 @@ const handleAddBtnClick = () => {
       <MuiLink href="/priorities">PRIORITIES</MuiLink><span> | </span> 
       <Button onClick = {handleAddBtnClick}>Add new </Button>
       {addVisible &&
+      <Grid>
       <AddTaskView 
       catList={categories} 
       priList={priorities}
       onAdd={(newTask) => handleNewTask(newTask)}
       />
+      </Grid>
     }
       <div>
         {tasks.length > 0 && categories.length > 0 && priorities.length > 0 &&(
           tasks.map((currTask) => (
-            <div key={currTask.id}>
+            <span key={currTask.id}>
               <TaskListItem
               task = {currTask}
               taskCategory = {getCategoryById(currTask.todoCategoryId)}
@@ -96,7 +98,7 @@ const handleAddBtnClick = () => {
               onDelete={() => deleteTask(currTask)}
               onUpdate ={() => updateTask(currTask)}
               />
-              </div>
+              </span>
           ))
         )}
       </div>
