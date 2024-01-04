@@ -13,6 +13,7 @@ import Category from '../models/category';
 import TaskListItem from './task-list-item';
 import { Grid, Typography, Button, Link as MuiLink } from '@mui/material';
 import AddTaskView from './add-task';
+import { getDefaultCategory, getDefaultPriority } from '../utils/defaultEntities';
 
 export const CategoryContext = createContext<Category[]>([]);
 export const PriorityContext = createContext<Priority[]>([])
@@ -62,11 +63,21 @@ const addTask = (taskToAdd:Task) => {
   setAddVisible(false)
   console.log("add new todo")
 }
-const getCategoryById = (categoryId: string): Category | undefined => {
-  return categories.find(category => category.id === categoryId)
+const getCategoryById = (categoryId: string): Category => {
+  var category = categories.find(category => category.id === categoryId)
+  if(category){
+    return category 
+  }else {
+    return getDefaultCategory()
+  }
 }
-const getPriorityById = (priorityId: string): Priority | undefined => {
-  return priorities.find(priority => priority.id === priorityId)
+const getPriorityById = (priorityId: string): Priority => {
+  var priority =  priorities.find(priority => priority.id === priorityId)
+  if(priority){
+    return priority
+  }else{
+    return getDefaultPriority()
+  }
 }
 
 const handleAddBtnClick = () => {

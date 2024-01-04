@@ -9,8 +9,8 @@ import { formatDateToUI } from "../utils/format-date";
 import EditTask from "./edit-task";
 interface TaskListItemProps {
   task: Task;
-  taskCategory: Category | undefined;
-  taskPriority: Priority | undefined;
+  taskCategory: Category ;
+  taskPriority: Priority ;
   onDelete: () => void;
   onUpdate: (task:Task) => void;
 }
@@ -52,7 +52,7 @@ const TaskListItem:React.FC<TaskListItemProps> =
         </Grid>
         <Grid item xs={6}>
           <Typography variant="h5">{task.taskName}</Typography>
-          <Typography>{taskPriority ? taskPriority.priorityName : 'Unknown '} Priority</Typography>
+          <Typography fontWeight={"bold"} color={taskPriority.prioritySort > 40 ? "orange" : (taskPriority.prioritySort > 10 ?"GrayText" :  "green")}>{taskPriority ? taskPriority.priorityName : 'Unknown '} Priority</Typography>
 
           <Typography>Created: {formatDateToUI(task.createdDt)} </Typography>
           <Typography>Due: {formatDateToUI(task.dueDt)} </Typography>
