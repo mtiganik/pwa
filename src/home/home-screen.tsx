@@ -11,7 +11,7 @@ import { getAllPriorities } from '../service/priority-service';
 import Priority from '../models/priority';
 import Category from '../models/category';
 import TaskListItem from './task-list-item';
-import { Grid, Typography, Button, Link as MuiLink } from '@mui/material';
+import { Grid, Typography, Button, Link as MuiLink, ButtonGroup, ToggleButtonGroup, ToggleButton } from '@mui/material';
 import AddTaskView from './add-task';
 import { getDefaultCategory, getDefaultPriority } from '../utils/defaultEntities';
 
@@ -24,7 +24,8 @@ const HomeScreen: React.FC = () => {
   const [priorities, setPriorities] = useState<Priority[]>([])
   const [tasks, setTasks] = useState<Task[]>([])
   const [addVisible, setAddVisible] = useState(false)
-  
+  const [allTasks, setAllTasks] = useState<Task[]>([])
+  const [doneNotDone, setdoneNotDone] = React.useState('all');
 
   const [sortConfig, setSortConfig] = useState<{ index: number; ascending: boolean } | null>(null);
 
@@ -42,6 +43,7 @@ const HomeScreen: React.FC = () => {
           setCategories(categoriesResponse)
           setPriorities(prioritiesResponse)
           setTasks(taskResponse)
+          setAllTasks(taskResponse)
         }
       }catch(error){
         console.log(error)
@@ -89,19 +91,35 @@ const handleAddBtnClick = () => {
 
 const handleSortToggle = (index: number) => {
   if (tasks !== null) {
-    // Check if the same button is clicked again
     if (sortConfig?.index === index) {
-      // Toggle the sorting direction
       const ascending = !sortConfig.ascending;
       setSortConfig({ index, ascending });
       setTasks(sortTasks(tasks, index, ascending));
     } else {
-      // Set a new sorting configuration
       setSortConfig({ index, ascending: true });
       setTasks(sortTasks(tasks, index, true));
     }
   }
 };
+
+const handledoneNotDoneChange = (
+  event: React.MouseEvent<HTMLElement>,
+  newAlignment: string,
+) => {
+  setdoneNotDone(newAlignment);
+
+  if(sortConfig){
+    setAllTasks(sortTasks(allTasks, sortConfig.index, !sortConfig.ascending))
+  }
+  if(newAlignment == "all"){
+    setTasks(allTasks)
+  }else if(newAlignment == "notDone"){
+    setTasks(() => allTasks.filter((el) => el.isCompleted==false))
+  }else{
+    setTasks(() => allTasks.filter((el) => el.isCompleted==true))
+  }
+};
+
 
 const sortTasks = (tasks: Task[], index: number, ascending: boolean): Task[] => {
   const sortFunction = getSortFunction(index, ascending);
@@ -137,6 +155,8 @@ const getArrowSymbol = (index: number) => {
   return ' ';
 };
 
+
+
   return(
     <CategoryContext.Provider value={categories}>
       <PriorityContext.Provider value = {priorities}>
@@ -153,13 +173,19 @@ const getArrowSymbol = (index: number) => {
       </Grid>
     }
     <Grid container>
-      <Grid item xl={1}><Button  color='success'>Sort by</Button></Grid>
-    <Grid item xl={2}><Button>All Tasks<span></span></Button></Grid>
-    <Grid item xl={2}><Button>Not done</Button></Grid>
-    <Grid item xl={1}><Button>Done</Button></Grid>
-      <Grid item xl={2}><Button onClick={() => handleSortToggle(1)}>Category <span>{getArrowSymbol(1)}</span></Button></Grid>
-      <Grid item xl={2}><Button onClick={() => handleSortToggle(2)}>Priority <span>{getArrowSymbol(2)}</span></Button></Grid>
-      <Grid item xl={2}><Button onClick={() => handleSortToggle(3)}>Due date <span>{getArrowSymbol(3)}</span></Button></Grid>
+      <Grid><Button  color='success'>Sort by</Button></Grid>
+
+          <ToggleButtonGroup color="primary" value={doneNotDone} aria-label="doneNotDone" onChange={handledoneNotDoneChange} exclusive>
+          <ToggleButton value="all">All Tasks</ToggleButton>
+          <ToggleButton value="notDone">Not done</ToggleButton>
+          <ToggleButton value="done">Done</ToggleButton>
+          </ToggleButtonGroup>
+
+          <ButtonGroup variant="text" aria-label="text button group">
+            <Button onClick={() => handleSortToggle(1)}>Category <span>{getArrowSymbol(1)}</span></Button>
+            <Button onClick={() => handleSortToggle(2)}>Priority <span>{getArrowSymbol(2)}</span></Button>
+            <Button onClick={() => handleSortToggle(3)}>Due date <span>{getArrowSymbol(3)}</span></Button>
+          </ButtonGroup>
     </Grid>
       <div>
         {tasks.length > 0 && categories.length > 0 && priorities.length > 0 &&(
