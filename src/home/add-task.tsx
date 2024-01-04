@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useContext, useState} from "react";
 import Category from "../models/category";
 import Priority from "../models/priority";
 import Task from "../models/task";
@@ -6,14 +6,15 @@ import { Grid, Box, FormControl, Button, Select, SelectChangeEvent, MenuItem, In
 import { DatePicker } from "@mui/x-date-pickers";
 import {Dayjs} from "dayjs";
 import { postTask } from "../service/task-service";
+import { CategoryContext, PriorityContext } from "./home-screen";
 
 interface AddTaskListProps{
-  catList: Category[],
-  priList: Priority[],
   onAdd: (task:Task) => void;
 }
 
-const AddTaskView:React.FC<AddTaskListProps> =({catList,priList, onAdd}) => {
+const AddTaskView:React.FC<AddTaskListProps> =({onAdd}) => {
+  const catList = useContext(CategoryContext) 
+  const priList = useContext(PriorityContext)
   const [taskName, setTaskName] = useState("")
   const [catId,setCatId] = useState("")
   const [priId, setPriId] = useState("")

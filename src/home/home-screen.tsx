@@ -14,8 +14,8 @@ import TaskListItem from './task-list-item';
 import { Grid, Typography, Button, Link as MuiLink } from '@mui/material';
 import AddTaskView from './add-task';
 
-const CategoryContext = createContext<Category[]>([]);
-const PriorityContext = createContext<Priority[]>([])
+export const CategoryContext = createContext<Category[]>([]);
+export const PriorityContext = createContext<Priority[]>([])
 
 const HomeScreen: React.FC = () => {
 
@@ -72,7 +72,8 @@ const handleAddBtnClick = () => {
   setAddVisible(!addVisible)
 }
   return(
-    <div>
+    <CategoryContext.Provider value={categories}>
+      <PriorityContext.Provider value = {priorities}>
 
       <h1>Todo App</h1>
       <MuiLink href="/categories">CATEGORIES</MuiLink><span> | </span>
@@ -81,8 +82,6 @@ const handleAddBtnClick = () => {
       {addVisible &&
       <Grid>
       <AddTaskView 
-      catList={categories} 
-      priList={priorities}
       onAdd={(newTask) => addTask(newTask)}
       />
       </Grid>
@@ -100,10 +99,10 @@ const handleAddBtnClick = () => {
               />
               </span>
           ))
-        )}
-      </div>
-
-    </div>
+          )}
+        </div>
+      </PriorityContext.Provider>
+    </CategoryContext.Provider>
   )
 }
 
