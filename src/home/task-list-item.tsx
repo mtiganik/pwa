@@ -36,6 +36,7 @@ const TaskListItem:React.FC<TaskListItemProps> =
   }
 
   const handleEdit = (newTask:Task) => {
+    setEditViewVisible(false)
     onUpdate(newTask)
   }
 
@@ -58,9 +59,9 @@ const TaskListItem:React.FC<TaskListItemProps> =
 
         </Grid>
         <Grid item xs={3} alignContent={"flex-start"}>
-          <Button onClick={handleMarkAsDone}>Mark as done</Button>
-          <Button onClick={handleTaskDelete}>Delete</Button>
-          <Button onClick={showEditViewClick}>Edit</Button>
+        <Grid item xs={12}><Button onClick={handleMarkAsDone}>{task.isCompleted? "Mark as not done": "Mark as done"}</Button></Grid>
+        <Grid item xs={12}><Button onClick={handleTaskDelete}>Delete</Button></Grid>
+        <Grid item xs={12}><Button onClick={showEditViewClick}>Edit</Button></Grid>
         </Grid>
       </Grid>
       {editViewVisible &&(
