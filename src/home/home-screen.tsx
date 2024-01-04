@@ -4,7 +4,7 @@ import DebugCategories from '../debug/debug-categories';
 import DebugPriorities from '../debug/debug-priorities';
 import DebugTasks from '../debug/debug-tasks';
 
-import React, {useEffect,useState} from 'react';
+import React, {useEffect,useState,createContext, useContext} from 'react';
 import { getAllTasks } from '../service/task-service';
 import { getAllCategories } from '../service/category-service';
 import { getAllPriorities } from '../service/priority-service';
@@ -13,6 +13,9 @@ import Category from '../models/category';
 import TaskListItem from './task-list-item';
 import { Grid, Typography, Button, Link as MuiLink } from '@mui/material';
 import AddTaskView from './add-task';
+
+const CategoryContext = createContext<Category[]>([]);
+const PriorityContext = createContext<Priority[]>([])
 
 const HomeScreen: React.FC = () => {
 
