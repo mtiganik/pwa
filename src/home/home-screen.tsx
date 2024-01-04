@@ -24,9 +24,10 @@ const HomeScreen: React.FC = () => {
   const [priorities, setPriorities] = useState<Priority[]>([])
   const [tasks, setTasks] = useState<Task[]>([])
   const [addVisible, setAddVisible] = useState(false)
-  const [csa, setCsa] = useState(false) //categorySort ascending
-  const [psa,setPsa] = useState(false) //priority sort ascending
-  const [dtsa,setDtsa] = useState(false) //due date sort ascending
+  
+
+  const [sortConfig, setSortConfig] = useState<{ index: number; ascending: boolean } | null>(null);
+
   useEffect(() => {
     console.log("In useEffect")
     const fetchTasks = async() => {
@@ -86,30 +87,56 @@ const handleAddBtnClick = () => {
   setAddVisible(!addVisible)
 }
 
-const handleSortToggle = (index:number) => {
-  if(tasks != null){
-    if(index === 1){
-      setTasks(() => [...tasks].sort((a,b) => csa ?
-      b.todoCategoryId.localeCompare(a.todoCategoryId)
-      :a.todoCategoryId.localeCompare(b.todoCategoryId)))
-      setCsa(!csa)
-    }
-    else if(index === 2){
-      setTasks(() => [...tasks].sort((a,b) => psa ?
-      b.todoPriorityId.localeCompare(a.todoPriorityId)
-      :a.todoPriorityId.localeCompare(b.todoPriorityId)
-      ))
-      setPsa(!psa)
-    }else{
-      setTasks(() => [...tasks].sort((a,b) => dtsa ? 
-      new Date(b.dueDt).getTime() - new Date(a.dueDt).getTime()
-      : new Date(a.dueDt).getTime() - new Date(b.dueDt).getTime()
-      )) 
-      setDtsa(!dtsa)
+const handleSortToggle = (index: number) => {
+  if (tasks !== null) {
+    // Check if the same button is clicked again
+    if (sortConfig?.index === index) {
+      // Toggle the sorting direction
+      const ascending = !sortConfig.ascending;
+      setSortConfig({ index, ascending });
+      setTasks(sortTasks(tasks, index, ascending));
+    } else {
+      // Set a new sorting configuration
+      setSortConfig({ index, ascending: true });
+      setTasks(sortTasks(tasks, index, true));
     }
   }
-  console.log(`Button no ${index} pressed it`)
-}
+};
+
+const sortTasks = (tasks: Task[], index: number, ascending: boolean): Task[] => {
+  const sortFunction = getSortFunction(index, ascending);
+  return [...tasks].sort(sortFunction);
+};
+
+const getSortFunction = (index: number, ascending: boolean) => {
+  switch (index) {
+    case 1:
+      return (a: Task, b: Task) => ascending
+        ? a.todoCategoryId.localeCompare(b.todoCategoryId)
+        : b.todoCategoryId.localeCompare(a.todoCategoryId);
+
+    case 2:
+      return (a: Task, b: Task) => ascending
+        ? a.todoPriorityId.localeCompare(b.todoPriorityId)
+        : b.todoPriorityId.localeCompare(a.todoPriorityId);
+
+    case 3:
+      return (a: Task, b: Task) => ascending
+        ? new Date(a.dueDt).getTime() - new Date(b.dueDt).getTime()
+        : new Date(b.dueDt).getTime() - new Date(a.dueDt).getTime();
+
+    default:
+      return (a: Task, b: Task) => 0; // Default case for invalid index
+  }
+};
+
+const getArrowSymbol = (index: number) => {
+  if (sortConfig?.index === index) {
+    return sortConfig.ascending ? '↓' : '↑';
+  }
+  return ' ';
+};
+
   return(
     <CategoryContext.Provider value={categories}>
       <PriorityContext.Provider value = {priorities}>
@@ -125,15 +152,14 @@ const handleSortToggle = (index:number) => {
       />
       </Grid>
     }
-    ↑↓
     <Grid container>
       <Grid item xl={1}><Button  color='success'>Sort by</Button></Grid>
     <Grid item xl={2}><Button>All Tasks<span></span></Button></Grid>
     <Grid item xl={2}><Button>Not done</Button></Grid>
     <Grid item xl={1}><Button>Done</Button></Grid>
-      <Grid item xl={2}><Button onClick={() => handleSortToggle(1)}>Category</Button></Grid>
-      <Grid item xl={2}><Button onClick={() => handleSortToggle(2)}>Priority</Button></Grid>
-      <Grid item xl={2}><Button onClick={() => handleSortToggle(3)}>Due date</Button></Grid>
+      <Grid item xl={2}><Button onClick={() => handleSortToggle(1)}>Category <span>{getArrowSymbol(1)}</span></Button></Grid>
+      <Grid item xl={2}><Button onClick={() => handleSortToggle(2)}>Priority <span>{getArrowSymbol(2)}</span></Button></Grid>
+      <Grid item xl={2}><Button onClick={() => handleSortToggle(3)}>Due date <span>{getArrowSymbol(3)}</span></Button></Grid>
     </Grid>
       <div>
         {tasks.length > 0 && categories.length > 0 && priorities.length > 0 &&(
