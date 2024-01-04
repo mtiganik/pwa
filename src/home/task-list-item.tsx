@@ -12,7 +12,7 @@ interface TaskListItemProps {
   taskCategory: Category | undefined;
   taskPriority: Priority | undefined;
   onDelete: () => void;
-  onUpdate: () => void;
+  onUpdate: (task:Task) => void;
 }
 
 const TaskListItem:React.FC<TaskListItemProps> = 
@@ -22,7 +22,7 @@ const TaskListItem:React.FC<TaskListItemProps> =
     task.isCompleted = !task.isCompleted
     var result = await editTask(task)
     if(200 <= result && result < 300){
-      onUpdate()
+      onUpdate(task)
     }
   }
   const handleTaskDelete = async() => {
@@ -35,16 +35,19 @@ const TaskListItem:React.FC<TaskListItemProps> =
     setEditViewVisible(!editViewVisible)
   }
 
+  const handleEdit = (newTask:Task) => {
+    onUpdate(newTask)
+  }
+
     return(
-      <Grid container>
-      <Grid border={1} container margin={2}>
+      <Grid container margin={2}>
+      <Grid border={1} container >
         <Grid item xs={3} style = {{justifyContent:'center'}}>
           <ShowIcon categoryName={taskCategory?.categoryName} isDone={task.isCompleted}/>
           <Typography style={{
             
             color:task.isCompleted ? "lightGreen": "#ff5722"}}
             >{task.isCompleted ? "Completed":"Needs work"}</Typography>
-       {/* < AgricultureIcon  style={{color: "red", fontSize: 100}} /> */}
         </Grid>
         <Grid item xs={6}>
           <Typography variant="h5">{task.taskName}</Typography>
@@ -63,11 +66,9 @@ const TaskListItem:React.FC<TaskListItemProps> =
       {editViewVisible &&(
         <EditTask 
         task={task} 
-        catList={[]} 
-        priList={[]} 
-        onEdit={function (task: Task): void {
-            throw new Error("Function not implemented.");
-          } }          
+        currCat= {taskCategory}
+        currPri= {taskPriority} 
+        onEdit={(newTask) => handleEdit(newTask)}  
         />
       )}
       </Grid>

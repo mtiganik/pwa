@@ -46,6 +46,7 @@ const HomeScreen: React.FC = () => {
   }, [setTasks])
 
 const updateTask = (taskToUpdate: Task) => {
+  console.log("On update")
   const updatedTask = tasks.map((task) => 
   task.id === taskToUpdate.id ? taskToUpdate : task)
   setTasks(updatedTask)
@@ -95,7 +96,7 @@ const handleAddBtnClick = () => {
               taskCategory = {getCategoryById(currTask.todoCategoryId)}
               taskPriority={getPriorityById(currTask.todoPriorityId)}
               onDelete={() => deleteTask(currTask)}
-              onUpdate ={() => updateTask(currTask)}
+              onUpdate ={(newTask) => updateTask(newTask)}
               />
               </span>
           ))
