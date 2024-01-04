@@ -19,7 +19,7 @@ const HomeScreen: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([])
   const [priorities, setPriorities] = useState<Priority[]>([])
   const [tasks, setTasks] = useState<Task[]>([])
-  const [addVisible, setAddVisible] = useState(true)
+  const [addVisible, setAddVisible] = useState(false)
 
   useEffect(() => {
     console.log("In useEffect")
@@ -54,7 +54,8 @@ const deleteTask = (taskToDelete: Task) => {
 }
 
 const addTask = (taskToAdd:Task) => {
-  // TODO: implement method
+  setTasks([taskToAdd, ...tasks])
+  setAddVisible(false)
   console.log("add new todo")
 }
 const getCategoryById = (categoryId: string): Category | undefined => {
@@ -64,10 +65,6 @@ const getPriorityById = (priorityId: string): Priority | undefined => {
   return priorities.find(priority => priority.id === priorityId)
 }
 
-
-const handleNewTask = (taskToAdd:Task) => {
-  console.log(taskToAdd)
-}
 const handleAddBtnClick = () => {
   setAddVisible(!addVisible)
 }
@@ -83,7 +80,7 @@ const handleAddBtnClick = () => {
       <AddTaskView 
       catList={categories} 
       priList={priorities}
-      onAdd={(newTask) => handleNewTask(newTask)}
+      onAdd={(newTask) => addTask(newTask)}
       />
       </Grid>
     }

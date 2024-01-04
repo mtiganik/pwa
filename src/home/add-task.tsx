@@ -5,6 +5,7 @@ import Task from "../models/task";
 import { Grid, Box, FormControl, Button, Select, SelectChangeEvent, MenuItem, InputLabel,TextField, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import {Dayjs} from "dayjs";
+import { postTask } from "../service/task-service";
 
 interface AddTaskListProps{
   catList: Category[],
@@ -17,12 +18,34 @@ const AddTaskView:React.FC<AddTaskListProps> =({catList,priList, onAdd}) => {
   const [catId,setCatId] = useState("")
   const [priId, setPriId] = useState("")
   const [dueDt, setDueDt] = useState<Dayjs | null>(null)
-
-    const handleAdd = () => {
-      console.log("Add clicked")
-      console.log("Category",catId)
-      console.log("Priority",priId)
-      console.log("dueDate:",dueDt?.format())
+  const [errorMsg, setErrorMsg] = useState("")
+    const handleAdd = async() => {
+      if(taskName.length > 1 && catId.length > 1 && priId.length > 1 && dueDt){
+        setErrorMsg("")
+        const t1:Task = {
+          id: crypto.randomUUID(),
+          taskName: taskName,
+          createdDt: new Date().toISOString(),
+          dueDt: dueDt.format(),
+          isCompleted: false,
+          isArchieved: false,
+          todoCategoryId: catId,
+          todoPriorityId: priId,
+          syncDt: new Date().toISOString()
+        }
+        var result = await postTask(t1)
+        if(result >= 200 && result <300){
+          setTaskName("")
+          setCatId("")
+          setPriId("")
+          setDueDt(null)
+          onAdd(t1)
+        }else{
+          setErrorMsg("Error posting data")
+        }
+      }else{
+        setErrorMsg("Form has errors, please correct them")
+      }
     }
     const handleCategoryChange = (event: SelectChangeEvent) => {
       const selectedCatId = event.target.value as string
@@ -93,12 +116,16 @@ const AddTaskView:React.FC<AddTaskListProps> =({catList,priList, onAdd}) => {
         </FormControl>
 
         <Typography>Select Due date</Typography>
-      <DatePicker 
-      label = "Select due date"
-      value={dueDt}
-      onChange={(newValue) => setDueDt(newValue)}
-      />
-      <Button type="submit" onClick={handleAdd}>Add new</Button>
+        <DatePicker
+          label="Select due date"
+          value={dueDt}
+          onChange={(newValue) => setDueDt(newValue)}
+        />
+        <Typography color="red" >
+          {errorMsg}
+        </Typography>
+
+        <Button type="submit" onClick={handleAdd}>Add new</Button>
       </Box>
 
           )
