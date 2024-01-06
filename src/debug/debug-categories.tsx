@@ -1,7 +1,7 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import Button from '@mui/material/Button';
-import {getAllCategories, getCategoryById, postCategory,editCategory,deleteCategory } from "../service/category-service";
+import {getAllCategoriesService, getCategoryByIdService, postCategoryService,editCategoryService,deleteCategoryService } from "../service/category-service";
 import Category from "../models/category";
 import { } from "../service/utils";
 
@@ -18,28 +18,28 @@ const cat1:Category =
 const DebugCategories: React.FC = () => {
 
   const handleGetAll = async() => {
-    var response = await getAllCategories()
+    var response = await getAllCategoriesService()
     console.log(response)
   }
 
 
   const handleGetById = async() => {
-    var response = await getCategoryById(cat1.id)
+    var response = await getCategoryByIdService(cat1.id)
     console.log(response)
   }
 
   const handlePost = async() => {
-    var response = await postCategory(cat1)
+    var response = await postCategoryService(cat1)
     console.log(response)
   }
   const handleEdit = async() => {
     cat1.categoryName = "new name"
     console.log(cat1)
-    var response = await editCategory(cat1)
+    var response = await editCategoryService(cat1)
     console.log(response)
   }
   const handleDelete = async() => {
-    var response = await deleteCategory(cat1.id)
+    var response = await deleteCategoryService(cat1.id)
     console.log(response)
   }
   return(

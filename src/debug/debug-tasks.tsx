@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
-import { getAllTasks, getTaskById, postTask, editTask,deleteTask } from '../service/task-service';
+import { getAllTasksService, getTaskByIdService, postTaskService, editTaskService,deleteTaskService } from '../service/task-service';
 import { catId } from './debug-categories';
 import { priId } from './debug-priorities';
 import Task from '../models/task';
@@ -21,27 +21,27 @@ const task1: Task = {
 const DebugTasks: React.FC = () => {
 
   const handleGetAll= async() => {
-    var response = await getAllTasks()
+    var response = await getAllTasksService()
     console.log(response)
   }
 
   const handleGetById = async() => {
-    var response = await getTaskById(task1.id)
+    var response = await getTaskByIdService(task1.id)
     console.log(response)
   }
 
   const handlePost = async() => {
-    var response = await postTask(task1)
+    var response = await postTaskService(task1)
     console.log(response)
   }
   const handleEdit = async() => {
     task1.isCompleted = true
     task1.taskName = task1.taskName + " DONE"
-    var response = await editTask(task1)
+    var response = await editTaskService(task1)
     console.log(response)
   }
   const handleDelete = async() => {
-    var response = await deleteTask(task1.id)
+    var response = await deleteTaskService(task1.id)
     console.log(response)
   }
 

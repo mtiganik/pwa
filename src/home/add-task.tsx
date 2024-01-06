@@ -5,7 +5,7 @@ import Task from "../models/task";
 import { Grid, Box, FormControl, Button, Select, SelectChangeEvent, MenuItem, InputLabel,TextField, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import {Dayjs} from "dayjs";
-import { postTask } from "../service/task-service";
+import { postTaskService } from "../service/task-service";
 import { CategoryContext, PriorityContext } from "./home-screen";
 
 interface AddTaskListProps{
@@ -34,7 +34,7 @@ const AddTaskView:React.FC<AddTaskListProps> =({onAdd}) => {
           todoPriorityId: priId,
           syncDt: new Date().toISOString()
         }
-        var result = await postTask(t1)
+        var result = await postTaskService(t1)
         if(result >= 200 && result <300){
           setTaskName("")
           setCatId("")

@@ -7,7 +7,7 @@ import { Grid, Box, FormControl, Button, Select, SelectChangeEvent, MenuItem, In
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs";
 import { AlignHorizontalCenter } from "@mui/icons-material";
-import { editTask } from "../service/task-service";
+import { editTaskService } from "../service/task-service";
 interface EditTaskProps {
   task: Task,
   currCat: Category | undefined,
@@ -44,7 +44,7 @@ const EditTask:React.FC<EditTaskProps> =({task,currCat,currPri, onEdit}) => {
       task.todoCategoryId = catId
       task.todoPriorityId = priId
       task.dueDt = dueDt.format()
-      const response = await editTask(task)
+      const response = await editTaskService(task)
       if (response >= 200 && response <300){
         onEdit(task)
       }else{

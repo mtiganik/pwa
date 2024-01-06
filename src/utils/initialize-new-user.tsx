@@ -2,9 +2,9 @@ import axios from "axios"
 import Category from "../models/category"
 import Priority from "../models/priority"
 import Task from "../models/task"
-import { postCategory } from "../service/category-service"
-import { postPriority } from "../service/priority-service"
-import { postTask } from "../service/task-service"
+import { postCategoryService } from "../service/category-service"
+import { postPriorityService } from "../service/priority-service"
+import { postTaskService } from "../service/task-service"
 import { openDB } from "idb";
 
 const getDateInFuture = (day: number): Date => {
@@ -219,7 +219,7 @@ const InitializeNewUserData = async() => {
       DefaultCategories.map(async (category) => {
         try {
           await db1.add("category", category, category.id)
-          await postCategory(category)
+          await postCategoryService(category)
 
         } catch (categoryError) {
           console.error("Error creating category:", categoryError)
@@ -229,7 +229,7 @@ const InitializeNewUserData = async() => {
         DefaultPriorities.map(async (priority) => {
         try {
           await db1.add("priority", priority,priority.id)
-          await postPriority(priority)
+          await postPriorityService(priority)
 
         } catch (priorityError) {
           console.error("Error creating priority: ", priorityError)
@@ -247,7 +247,7 @@ const InitializeNewUserData = async() => {
       DefaultTasks.map(async (task) => {
         try {
           await db1.add("task", task, task.id)
-          await postTask(task)
+          await postTaskService(task)
 
         } catch (taskError) {
           
@@ -261,6 +261,7 @@ const InitializeNewUserData = async() => {
   }catch(promiseError){
     console.error("Error initializing tasks: ", promiseError)
   }
+  db1.close()
   console.log("Created Todo Tasks Initial Values")
 }
 

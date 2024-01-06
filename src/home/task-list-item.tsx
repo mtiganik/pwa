@@ -2,7 +2,7 @@ import React from "react";
 import Task from "../models/task";
 import Category from "../models/category";
 import Priority from "../models/priority";
-import { deleteTask, editTask } from "../service/task-service";
+import { deleteTaskService, editTaskService } from "../service/task-service";
 import { Grid, Button, Typography } from "@mui/material";
 import ShowIcon from "../utils/show-icon";
 import { formatDateToUI } from "../utils/format-date";
@@ -20,13 +20,13 @@ const TaskListItem:React.FC<TaskListItemProps> =
   const [editViewVisible, setEditViewVisible] = React.useState(false)
   const handleMarkAsDone = async() => {
     task.isCompleted = !task.isCompleted
-    var result = await editTask(task)
+    var result = await editTaskService(task)
     if(200 <= result && result < 300){
       onUpdate(task)
     }
   }
   const handleTaskDelete = async() => {
-    var result = await deleteTask(task.id)
+    var result = await deleteTaskService(task.id)
     if(200 <= result && result < 300){
       onDelete()
     }

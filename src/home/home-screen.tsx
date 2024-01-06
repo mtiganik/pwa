@@ -5,9 +5,9 @@ import DebugPriorities from '../debug/debug-priorities';
 import DebugTasks from '../debug/debug-tasks';
 
 import React, {useEffect,useState,createContext, useContext} from 'react';
-import { getAllTasks } from '../service/task-service';
-import { getAllCategories } from '../service/category-service';
-import { getAllPriorities } from '../service/priority-service';
+import { getAllTasksService } from '../service/task-service';
+import { getAllCategoriesService } from '../service/category-service';
+import { getAllPrioritiesService } from '../service/priority-service';
 import Priority from '../models/priority';
 import Category from '../models/category';
 import TaskListItem from './task-list-item';
@@ -35,9 +35,9 @@ const HomeScreen: React.FC = () => {
       try{
         const [categoriesResponse, prioritiesResponse, taskResponse] =
         await Promise.all([
-          getAllCategories(),
-          getAllPriorities(),
-          getAllTasks(),
+          getAllCategoriesService(),
+          getAllPrioritiesService(),
+          getAllTasksService(),
         ])
         if(categoriesResponse && prioritiesResponse && taskResponse){
           setCategories(categoriesResponse)

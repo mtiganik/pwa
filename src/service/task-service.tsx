@@ -5,7 +5,7 @@ import GetUrl from "../utils/get-url";
 
 const url = GetUrl() + "TodoTasks"
 const contentType = {'Content-Type': 'application/json'}
-export const getAllTasks = async(): Promise<Task[]> => {
+export const getAllTasksService = async(): Promise<Task[]> => {
   try{
     const AuthHeader = getAuthorizationHeader();
     var response = await axios.get(url, {headers:{...AuthHeader,...contentType}})
@@ -16,7 +16,7 @@ export const getAllTasks = async(): Promise<Task[]> => {
   }
 }
 
-export const getTaskById = async(taskId: string): Promise<Task | null> => {
+export const getTaskByIdService = async(taskId: string): Promise<Task | null> => {
   try{
     const AuthHeader = getAuthorizationHeader();
     var response = await axios.get(`${url}/${taskId}`,{headers:{...AuthHeader,...contentType}})
@@ -27,7 +27,7 @@ export const getTaskById = async(taskId: string): Promise<Task | null> => {
   }
 }
 
-export const postTask = async(task: Task): Promise<number> => {
+export const postTaskService = async(task: Task): Promise<number> => {
   try{
     const AuthHeader = getAuthorizationHeader();
     var response = await axios.post(url,task,{headers:{...AuthHeader,...contentType}})
@@ -38,7 +38,7 @@ export const postTask = async(task: Task): Promise<number> => {
   }
 }
 
-export const editTask = async(task: Task): Promise<number> => {
+export const editTaskService = async(task: Task): Promise<number> => {
   try{
     const AuthHeader = getAuthorizationHeader();
     var response = await axios.put(`${url}/${task.id}`,task, {headers:{...AuthHeader,...contentType}})
@@ -49,7 +49,7 @@ export const editTask = async(task: Task): Promise<number> => {
   }
 }
 
-export const deleteTask = async(taskId: string): Promise<number> => {
+export const deleteTaskService = async(taskId: string): Promise<number> => {
   try{
     const AuthHeader = getAuthorizationHeader();
     var response = await axios.delete(`${url}/${taskId}`,{headers:{...AuthHeader,...contentType}})

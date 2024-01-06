@@ -6,7 +6,7 @@ import GetUrl from "../utils/get-url";
 const url = GetUrl() + "TodoCategories"
 const contentType = {'Content-Type': 'application/json'}
 
-export const getAllCategories = async(): Promise<Category[]> => {
+export const getAllCategoriesService = async(): Promise<Category[]> => {
   try{
     const AuthHeader = getAuthorizationHeader();
     var response = await axios.get(url, {headers:{...AuthHeader,...contentType}})
@@ -17,7 +17,7 @@ export const getAllCategories = async(): Promise<Category[]> => {
   }
   return []
 }
-export const getCategoryById = async(catId: string): Promise<Category | null> => {
+export const getCategoryByIdService = async(catId: string): Promise<Category | null> => {
   try{
     const AuthHeader = getAuthorizationHeader();
     var response = await axios.get(`${url}/${catId}`,
@@ -29,7 +29,7 @@ export const getCategoryById = async(catId: string): Promise<Category | null> =>
   }
 }
 
-export const postCategory = async( cat: Category): Promise<number> => {
+export const postCategoryService = async( cat: Category): Promise<number> => {
   try{
     const AuthHeader = getAuthorizationHeader();
     var response = await axios.post(url,cat, {headers:{...AuthHeader,...contentType}})
@@ -40,7 +40,7 @@ export const postCategory = async( cat: Category): Promise<number> => {
   return 0
 }
 
-export const editCategory = async(cat: Category): Promise<number> => {
+export const editCategoryService = async(cat: Category): Promise<number> => {
   try{
     const AuthHeader = getAuthorizationHeader();
     const id = cat.id
@@ -53,7 +53,7 @@ export const editCategory = async(cat: Category): Promise<number> => {
   }
 }
 
-export const deleteCategory = async(catId: string): Promise<number> => {
+export const deleteCategoryService = async(catId: string): Promise<number> => {
   try{
     const AuthHeader = getAuthorizationHeader();
     var response = await axios.delete(`${url}/${catId}`,{headers:{...AuthHeader,...contentType}})
