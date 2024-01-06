@@ -16,6 +16,7 @@ import Copyright from './copy-right';
 import GetUrl from '../utils/get-url';
 import axios from 'axios';
 import UserData from '../models/user-data';
+import PutServerDataToIDB from '../utils/put-server-data-to-idb';
 const defaultTheme = createTheme();
 
 export default function Login() {
@@ -51,6 +52,7 @@ export default function Login() {
         response.data.email = email
 
         localStorage.setItem('userData', JSON.stringify(response.data))
+        await PutServerDataToIDB();
         navigate('/')
 
       }catch(error){
