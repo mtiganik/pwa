@@ -1,60 +1,81 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import Button from '@mui/material/Button';
+import { openDB } from "idb";
+import Task from "../../models/task";
 import Category from "../../models/category";
+import Priority from "../../models/priority";
+
+const cat1: Category = {
+  id: crypto.randomUUID(),
+  categoryName: "Work",
+  categorySort: 1,
+  syncDt: new Date().toISOString(),
+  tag: 'work'
+}
+
+const pri1: Priority =   {
+  id: crypto.randomUUID(),
+  priorityName: "High",
+  prioritySort: 49,
+  syncDt: new Date().toISOString(),
+  tag: 'high'
+}
+const task1: Task = 
+{
+  id: crypto.randomUUID(),
+  taskName: "Visit Parents",
+  createdDt: new Date().toISOString(),
+  dueDt: new Date().toISOString(),
+  isCompleted: false,
+  isArchieved: false,
+  todoCategoryId: crypto.randomUUID(),
+  todoPriorityId: crypto.randomUUID(),
+  syncDt: new Date().toISOString()
+}
+
 
 
 const CategoryScreen: React.FC = () => {
 
-  const handleInitialize = () => {
-    let db;
-    const openOrCreateDB = window.indexedDB.open('todo_db', 1);
-    openOrCreateDB.addEventListener('error', () => console.error('Error opening DB'));
-    
-    openOrCreateDB.addEventListener('success', () => {
-      console.log('Successfully opened DB');
-      db = openOrCreateDB.result;
-      console.log(db)
-    });
 
-    openOrCreateDB.addEventListener('upgradeneeded', (event) => {
-      console.log("upgradeneeded")
-      const request = event.target as IDBRequest<IDBDatabase>;
-      db = request.result
+const initializeDB = () => {
+  openDB('db', 1,{
+    upgrade(db){
+      db.createObjectStore('priority');
+      db.createObjectStore('category')
+      db.createObjectStore('task')
+    }
+  });
+  console.log("Succesfully upgraded")
+}
+const handleAddData = async() => {
+  const db1 = await openDB('db', 1);
+  db1.add('priority', pri1, pri1.id)
+  db1.add('category', cat1, cat1.id)
+  db1.add('task', task1, task1.id)
+  db1.close();
+  console.log("Succesfully added")
 
-      if(!db.objectStoreNames.contains("todo_idb")){
-        const table = db.createObjectStore('todo_tb', 
-        {keyPath: 'id', autoIncrement:true})
-        table.createIndex('title','title', {unique: false})
-        table.createIndex('desc', 'desc', {unique:false})
-        console.log("Created table")
-      }
-    })
-  }
+}
 
-  const handleAddData = () => {
-    const openOrCreateDB = window.indexedDB.open('todo_db', 1);
-    openOrCreateDB.addEventListener('error', () => console.error('Error opening DB'));
-    
-    openOrCreateDB.addEventListener('success', () => {
-      const db = openOrCreateDB.result;
-      const newTodo = {title:"Hello", body:"Mihkel"}
-      const transaction = db.transaction(['todo_tb'], 'readwrite')
-      const objectStore = transaction.objectStore('todo_tb')
-      const query = objectStore.add(newTodo)
-      query.addEventListener('success', () => console.log("query store was succesfull"))
-      transaction.addEventListener('complete', () => console.log("transaction was success"))
-      transaction.addEventListener('error', () => console.log("transaction error"))
-    });
+const addMoreData = async() => {
+  const db2 = await openDB('db2',1);
+  db2.add('store3', { id: 'cat001', strength: 10, speed: 10 });
+  db2.add('store3', { id: 'cat002', strength: 11, speed: 9 });
+  db2.add('store4', { id: 'cat003', strength: 8, speed: 12 });
+  db2.add('store4', { id: 'cat004', strength: 12, speed: 13 });
+  db2.close();
 
-  }
+}
 
 
   return(
     <div>
       <h1>Category Screen</h1>
-      <button onClick={handleInitialize}>Initialize indexedDb</button>
+      <button onClick={initializeDB}>Initialize DB</button>
       <button onClick={handleAddData}>Add some data</button>
+      <button onClick={addMoreData}>Add some more data</button>
       <nav>
         <ul>
           <li>
