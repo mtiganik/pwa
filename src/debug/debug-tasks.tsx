@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
-import { getAllTasksService, getTaskByIdService, postTaskService, editTaskService,deleteTaskService } from '../service/task-service';
 import { catId } from './debug-categories';
 import { priId } from './debug-priorities';
 import { Task } from '../models';
+import { deleteTaskIdb, editTaskIdb, getAllTasksIdb, getTaskByIdIdb, postTaskIdb } from '../idb/task-idb';
 
 const task1: Task = {
   id: "a62cdd9c-d7eb-44d9-a4dc-2487a935641b",
@@ -21,27 +21,27 @@ const task1: Task = {
 const DebugTasks: React.FC = () => {
 
   const handleGetAll= async() => {
-    var response = await getAllTasksService()
+    var response = await getAllTasksIdb()
     console.log(response)
   }
 
   const handleGetById = async() => {
-    var response = await getTaskByIdService(task1.id)
+    var response = await getTaskByIdIdb(task1.id)
     console.log(response)
   }
 
   const handlePost = async() => {
-    var response = await postTaskService(task1)
+    var response = await postTaskIdb(task1)
     console.log(response)
   }
   const handleEdit = async() => {
     task1.isCompleted = true
     task1.taskName = task1.taskName + " DONE"
-    var response = await editTaskService(task1)
+    var response = await editTaskIdb(task1)
     console.log(response)
   }
   const handleDelete = async() => {
-    var response = await deleteTaskService(task1.id)
+    var response = await deleteTaskIdb(task1.id)
     console.log(response)
   }
 

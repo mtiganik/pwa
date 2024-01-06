@@ -5,7 +5,7 @@ export const getAllPrioritiesIdb =async(): Promise<Priority[]> => {
   return []
 }
 
-export const getPriorityByIdIdb = async(): Promise<Priority | null> => {
+export const getPriorityByIdIdb = async(priId: string): Promise<Priority | null> => {
   return null
 }
 
