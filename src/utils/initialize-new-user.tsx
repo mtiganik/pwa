@@ -5,6 +5,7 @@ import Task from "../models/task"
 import { postCategory } from "../service/category-service"
 import { postPriority } from "../service/priority-service"
 import { postTask } from "../service/task-service"
+import { openDB } from "idb";
 
 const getDateInFuture = (day: number): Date => {
   const currentDate = new Date();
@@ -205,10 +206,19 @@ const DefaultTasks : Task[] = [
 ]
 
 const InitializeNewUserData = async() => {
+  const db1 = await openDB('db', 1,{
+    upgrade(db){
+      db.createObjectStore('priority');
+      db.createObjectStore('category')
+      db.createObjectStore('task')
+    }
+  });
+
   try {
     await Promise.all(
       DefaultCategories.map(async (category) => {
         try {
+          await db1.add("category", category, category.id)
           await postCategory(category)
 
         } catch (categoryError) {
@@ -218,6 +228,7 @@ const InitializeNewUserData = async() => {
     await Promise.all(
         DefaultPriorities.map(async (priority) => {
         try {
+          await db1.add("priority", priority,priority.id)
           await postPriority(priority)
 
         } catch (priorityError) {
@@ -235,6 +246,7 @@ const InitializeNewUserData = async() => {
     await Promise.all(
       DefaultTasks.map(async (task) => {
         try {
+          await db1.add("task", task, task.id)
           await postTask(task)
 
         } catch (taskError) {
