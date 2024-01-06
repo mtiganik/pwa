@@ -21,7 +21,6 @@ export const postTaskIdb = async(task:Task): Promise<number> => {
 }
 
 export const editTaskIdb = async(task:Task) : Promise<number> => {
-  console.log("Editing:", task);
   (await idb.db1).put(dbn,task,task.id);
   return 201
 }
