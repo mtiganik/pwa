@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import Task from '../models/task';
 import DebugCategories from '../debug/debug-categories';
 import DebugPriorities from '../debug/debug-priorities';
 import DebugTasks from '../debug/debug-tasks';
@@ -8,12 +7,11 @@ import React, {useEffect,useState,createContext, useContext} from 'react';
 import { getAllTasksService } from '../service/task-service';
 import { getAllCategoriesService } from '../service/category-service';
 import { getAllPrioritiesService } from '../service/priority-service';
-import Priority from '../models/priority';
-import Category from '../models/category';
 import TaskListItem from './task-list-item';
 import { Grid, Typography, Button, Link as MuiLink, ButtonGroup, ToggleButtonGroup, ToggleButton } from '@mui/material';
 import AddTaskView from './add-task';
 import { getDefaultCategory, getDefaultPriority } from '../utils/defaultEntities';
+import { Category, Priority, Task } from '../models';
 
 export const CategoryContext = createContext<Category[]>([]);
 export const PriorityContext = createContext<Priority[]>([])

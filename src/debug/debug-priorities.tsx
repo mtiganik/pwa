@@ -2,8 +2,7 @@ import React from "react"
 import { Link } from "react-router-dom"
 import { Button } from "@mui/material"
 import { getAllPrioritiesService,getPriorityByIdService,postPriorityService,editPriorityService,deletePriorityService } from "../service/priority-service"
-import Priority from "../models/priority"
-
+import { Priority } from "../models"
 export const priId = "2339d796-bc6f-47a4-bdb9-3490483a3d81"
 
 const pri1:Priority = 

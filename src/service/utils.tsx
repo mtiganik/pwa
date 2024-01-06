@@ -1,5 +1,5 @@
 import React from "react";
-import UserData from "../models/user-data";
+import { UserData } from "../models";
 import { useNavigate } from "react-router-dom";
 
 export const getAuthorizationHeader =() => {

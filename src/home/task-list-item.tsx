@@ -1,7 +1,5 @@
 import React from "react";
-import Task from "../models/task";
-import Category from "../models/category";
-import Priority from "../models/priority";
+import { Category, Priority, Task } from '../models';
 import { deleteTaskService, editTaskService } from "../service/task-service";
 import { Grid, Button, Typography } from "@mui/material";
 import ShowIcon from "../utils/show-icon";

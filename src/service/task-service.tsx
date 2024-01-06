@@ -1,4 +1,4 @@
-import Task from "../models/task";
+import { Task } from "../models";
 import axios from "axios";
 import { getAuthorizationHeader } from "./utils";
 import GetUrl from "../utils/get-url";

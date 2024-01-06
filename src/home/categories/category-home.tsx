@@ -2,9 +2,8 @@ import React from "react"
 import { Link } from "react-router-dom"
 import Button from '@mui/material/Button';
 import { openDB } from "idb";
-import Task from "../../models/task";
-import Category from "../../models/category";
-import Priority from "../../models/priority";
+import { Category, Priority, Task } from "../../models";
+
 
 const cat1: Category = {
   id: crypto.randomUUID(),

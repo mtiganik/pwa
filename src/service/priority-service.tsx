@@ -1,4 +1,4 @@
-import Priority from "../models/priority";
+import { Priority } from "../models";
 import axios from "axios";
 import { getAuthorizationHeader } from "./utils";
 import GetUrl from "../utils/get-url";

@@ -5,7 +5,7 @@ import PriorityScreen from "./home/priorities/priority-home";
 import Login from "./login/login";
 import Register from "./login/register";
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import UserData from "./models/user-data";
+import { UserData } from "./models";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 

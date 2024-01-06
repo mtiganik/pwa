@@ -4,7 +4,7 @@ import { Button } from '@mui/material';
 import { getAllTasksService, getTaskByIdService, postTaskService, editTaskService,deleteTaskService } from '../service/task-service';
 import { catId } from './debug-categories';
 import { priId } from './debug-priorities';
-import Task from '../models/task';
+import { Task } from '../models';
 
 const task1: Task = {
   id: "a62cdd9c-d7eb-44d9-a4dc-2487a935641b",

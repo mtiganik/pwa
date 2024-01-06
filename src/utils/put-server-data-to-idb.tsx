@@ -1,9 +1,7 @@
+import { Category, Priority, Task } from "../models"
 import { getAllCategoriesService } from "../service/category-service"
 import { getAllPrioritiesService } from "../service/priority-service"
 import { getAllTasksService } from "../service/task-service"
-import Category from "../models/category"
-import Task from "../models/task"
-import Priority from "../models/priority"
 import { openDB } from "idb"
 
 

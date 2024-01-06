@@ -1,5 +1,4 @@
-import Category from "../models/category"
-import Priority from "../models/priority"
+import { Category, Priority } from "../models"
 
 
 export const getDefaultCategory = ():Category => {

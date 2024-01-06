@@ -15,7 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Copyright from './copy-right';
 import GetUrl from '../utils/get-url';
 import axios from 'axios';
-import UserData from '../models/user-data';
+import { UserData } from '../models';
 import PutServerDataToIDB from '../utils/put-server-data-to-idb';
 const defaultTheme = createTheme();
 

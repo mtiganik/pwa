@@ -1,11 +1,10 @@
 import axios from "axios"
-import Category from "../models/category"
-import Priority from "../models/priority"
-import Task from "../models/task"
+
 import { postCategoryService } from "../service/category-service"
 import { postPriorityService } from "../service/priority-service"
 import { postTaskService } from "../service/task-service"
 import { openDB } from "idb";
+import { Category, Priority, Task } from "../models";
 
 const getDateInFuture = (day: number): Date => {
   const currentDate = new Date();

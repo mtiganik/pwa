@@ -1,7 +1,7 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import { Button } from "@mui/material"
-import Priority from "../../models/priority"
+import { Priority } from "../../models"
 
 
 const PriorityScreen: React.FC = () => {

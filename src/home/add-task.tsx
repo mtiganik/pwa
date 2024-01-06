@@ -1,7 +1,5 @@
 import React,{useContext, useState} from "react";
-import Category from "../models/category";
-import Priority from "../models/priority";
-import Task from "../models/task";
+import { Category, Priority, Task } from '../models';
 import { Grid, Box, FormControl, Button, Select, SelectChangeEvent, MenuItem, InputLabel,TextField, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import {Dayjs} from "dayjs";
