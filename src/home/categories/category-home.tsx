@@ -4,6 +4,8 @@ import Button from '@mui/material/Button';
 import { openDB } from "idb";
 import { Category, Priority, Task } from "../../models";
 import DebugTasks from "../../debug/debug-tasks";
+import DebugCategories from "../../debug/debug-categories";
+import DebugPriorities from "../../debug/debug-priorities";
 
 const cat1: Category = {
   id: crypto.randomUUID(),
@@ -45,6 +47,8 @@ const CategoryScreen: React.FC = () => {
     <div>
       <h1>Category Screen</h1>
       <DebugTasks/>
+      <DebugCategories/>
+      <DebugPriorities/>
       <nav>
         <ul>
           <li>

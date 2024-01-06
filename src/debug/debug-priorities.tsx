@@ -1,8 +1,9 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import { Button } from "@mui/material"
-import { getAllPrioritiesService,getPriorityByIdService,postPriorityService,editPriorityService,deletePriorityService } from "../service/priority-service"
 import { Priority } from "../models"
+import { deletePriorityIdb, editPriorityIdb, getAllPrioritiesIdb, getPriorityByIdIdb, postPriorityIdb } from "../idb/priority-idb"
+
 export const priId = "2339d796-bc6f-47a4-bdb9-3490483a3d81"
 
 const pri1:Priority = 
@@ -18,28 +19,28 @@ const pri1:Priority =
 const DebugPriorities: React.FC = () => {
 
   const handleGetAll = async() => {
-    var response = await getAllPrioritiesService()
+    var response = await getAllPrioritiesIdb()
     console.log(response)
   }
 
   const handleGetById = async() => {
-    var response = await getPriorityByIdService(pri1.id)
+    var response = await getPriorityByIdIdb(pri1.id)
     console.log(response)
   }
 
   const handlePost = async() => {
-    var response = await postPriorityService(pri1)
+    var response = await postPriorityIdb(pri1)
     console.log(response)
   }
   const handleEdit = async() => {
-    pri1.priorityName = "Medium"
+    pri1.priorityName = pri1.priorityName + "Med"
     pri1.prioritySort = 20
-    var result = await editPriorityService(pri1)
+    var result = await editPriorityIdb(pri1)
     console.log(result)
   }
 
   const handleDelete = async() => {
-    var response = await deletePriorityService(pri1.id)
+    var response = await deletePriorityIdb(pri1.id)
     console.log(response)
   }
   return(
