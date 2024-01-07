@@ -1,5 +1,7 @@
-import {openDB} from "idb"
+// import {openDB} from "idb"
 
-export const idb ={
-  db1: openDB("db")
-}
+export const dbName = "db"
+export const dbVer = 1
+// export const idb ={
+//   db1: openDB("db")
+// }

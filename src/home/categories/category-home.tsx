@@ -6,7 +6,7 @@ import { Category, Priority, Task } from "../../models";
 import DebugTasks from "../../debug/debug-tasks";
 import DebugCategories from "../../debug/debug-categories";
 import DebugPriorities from "../../debug/debug-priorities";
-
+import DebugDbInitialization from "../../debug/debug-db-initialization";
 const cat1: Category = {
   id: crypto.randomUUID(),
   categoryName: "Work",
@@ -46,9 +46,7 @@ const CategoryScreen: React.FC = () => {
   return(
     <div>
       <h1>Category Screen</h1>
-      <DebugTasks/>
-      <DebugCategories/>
-      <DebugPriorities/>
+      <DebugDbInitialization/>
       <nav>
         <ul>
           <li>

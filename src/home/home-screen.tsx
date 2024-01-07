@@ -1,12 +1,9 @@
 import { Link } from 'react-router-dom';
-import DebugCategories from '../debug/debug-categories';
-import DebugPriorities from '../debug/debug-priorities';
-import DebugTasks from '../debug/debug-tasks';
 
 import React, {useEffect,useState,createContext, useContext} from 'react';
-import { getAllTasksService } from '../service/task-service';
-import { getAllCategoriesService } from '../service/category-service';
-import { getAllPrioritiesService } from '../service/priority-service';
+import { getAllCategoriesIdb } from '../idb/category-idb';
+import { getAllPrioritiesIdb } from '../idb/priority-idb';
+import { getAllTasksIdb } from '../idb/task-idb';
 import TaskListItem from './task-list-item';
 import { Grid, Typography, Button, Link as MuiLink, ButtonGroup, ToggleButtonGroup, ToggleButton } from '@mui/material';
 import AddTaskView from './add-task';
@@ -33,9 +30,9 @@ const HomeScreen: React.FC = () => {
       try{
         const [categoriesResponse, prioritiesResponse, taskResponse] =
         await Promise.all([
-          getAllCategoriesService(),
-          getAllPrioritiesService(),
-          getAllTasksService(),
+          getAllCategoriesIdb(),
+          getAllPrioritiesIdb(),
+          getAllTasksIdb(),
         ])
         if(categoriesResponse && prioritiesResponse && taskResponse){
           setCategories(categoriesResponse)
@@ -203,6 +200,10 @@ const getArrowSymbol = (index: number) => {
       </PriorityContext.Provider>
     </CategoryContext.Provider>
   )
+  
 }
 
+//  return(<>
+//   hello from home
+//  </>)
 export default HomeScreen;

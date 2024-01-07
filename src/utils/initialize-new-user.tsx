@@ -3,7 +3,11 @@ import axios from "axios"
 import { postCategoryService } from "../service/category-service"
 import { postPriorityService } from "../service/priority-service"
 import { postTaskService } from "../service/task-service"
+import { postCategoryIdb } from "../idb/category-idb"
+import { postPriorityIdb } from "../idb/priority-idb"
+import { postTaskIdb } from "../idb/task-idb"
 import { openDB } from "idb";
+import { dbName, dbVer } from "../idb/getIdb";
 import { Category, Priority, Task } from "../models";
 
 const getDateInFuture = (day: number): Date => {
@@ -205,7 +209,7 @@ const DefaultTasks : Task[] = [
 ]
 
 const InitializeNewUserData = async() => {
-  const db1 = await openDB('db', 1,{
+  await openDB(dbName, dbVer,{
     upgrade(db){
       db.createObjectStore('priority');
       db.createObjectStore('category')
@@ -217,7 +221,7 @@ const InitializeNewUserData = async() => {
     await Promise.all(
       DefaultCategories.map(async (category) => {
         try {
-          await db1.add("category", category, category.id)
+          await postCategoryIdb(category)
           await postCategoryService(category)
 
         } catch (categoryError) {
@@ -227,7 +231,7 @@ const InitializeNewUserData = async() => {
     await Promise.all(
         DefaultPriorities.map(async (priority) => {
         try {
-          await db1.add("priority", priority,priority.id)
+          await postPriorityIdb(priority)
           await postPriorityService(priority)
 
         } catch (priorityError) {
@@ -245,7 +249,7 @@ const InitializeNewUserData = async() => {
     await Promise.all(
       DefaultTasks.map(async (task) => {
         try {
-          await db1.add("task", task, task.id)
+          await postTaskIdb(task)
           await postTaskService(task)
 
         } catch (taskError) {
@@ -260,7 +264,6 @@ const InitializeNewUserData = async() => {
   }catch(promiseError){
     console.error("Error initializing tasks: ", promiseError)
   }
-  db1.close()
   console.log("Created Todo Tasks Initial Values")
 }
 

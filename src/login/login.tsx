@@ -52,7 +52,9 @@ export default function Login() {
         response.data.email = email
 
         localStorage.setItem('userData', JSON.stringify(response.data))
+        console.log("Before putServerDataTo IDB")
         await PutServerDataToIDB();
+        console.log("After serverData to idb")
         navigate('/')
 
       }catch(error){
