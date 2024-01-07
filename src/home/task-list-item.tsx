@@ -19,6 +19,7 @@ const TaskListItem:React.FC<TaskListItemProps> =
   const [editViewVisible, setEditViewVisible] = React.useState(false)
   const handleMarkAsDone = async() => {
     task.isCompleted = !task.isCompleted
+    task.syncDt = new Date().toISOString()
     var result = await editTaskIdb(task)
     if(200 <= result && result < 300){
       onUpdate(task)

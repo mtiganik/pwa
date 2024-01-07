@@ -42,6 +42,7 @@ const EditTask:React.FC<EditTaskProps> =({task,currCat,currPri, onEdit}) => {
       task.todoCategoryId = catId
       task.todoPriorityId = priId
       task.dueDt = dueDt.format()
+      task.syncDt = new Date().toISOString()
       const response = await editTaskIdb(task)
       if (response >= 200 && response <300){
         onEdit(task)

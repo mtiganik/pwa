@@ -22,24 +22,33 @@ const SyncData:React.FC = () => {
     syncTasks(taskIdb, taskServ)
   }
 
-  const syncTasks =(tasksIdb:Task[], tasksService:Task[]) => {
-    tasksIdb.forEach((taskIdb) => {
+  const syncTasks =async(tasksIdb:Task[], tasksService:Task[]) => {
+    tasksIdb.forEach(async(taskIdb) => {
       const mathcingTaskService = tasksService.find((taskService) => taskService.id === taskIdb.id)
 
       if(!mathcingTaskService){
         console.log(`Task ${taskIdb.taskName} is in IDB but not in the server`)
+        await postTaskService(taskIdb)
       }else if(!areTasksEqual(taskIdb, mathcingTaskService)){
         console.log(`Task ${taskIdb.taskName} is different in IDB and server`)
+        syncSameEntry(taskIdb,mathcingTaskService)
       }
     });
 
-    tasksService.forEach((taskService) => {
+    tasksService.forEach(async(taskService) => {
       const mathingTaskIdb = tasksIdb.find((task) => task.id === taskService.id)
       if(!mathingTaskIdb){
         console.log(`Task ${taskService.taskName} is in the server but not in IDB`)
+        await postTaskIdb(taskService)
       }
     })
-
+  }
+  const syncSameEntry= async(taskIdb:Task, taskServer:Task) => {
+    if(new Date(taskIdb.syncDt).getMilliseconds() > new Date(taskServer.syncDt).getMilliseconds()){
+      await editTaskService(taskIdb)
+    }else{
+      await editTaskIdb(taskServer)
+    }
   }
 
   const areTasksEqual = (task1:Task,task2:Task):boolean=> {
