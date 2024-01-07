@@ -9,6 +9,7 @@ import { Grid, Typography, Button, Link as MuiLink, ButtonGroup, ToggleButtonGro
 import AddTaskView from './add-task';
 import { getDefaultCategory, getDefaultPriority } from '../utils/defaultEntities';
 import { Category, Priority, Task } from '../models';
+import SyncData from '../sync-data';
 
 export const CategoryContext = createContext<Category[]>([]);
 export const PriorityContext = createContext<Priority[]>([])
@@ -160,6 +161,7 @@ const getArrowSymbol = (index: number) => {
       <MuiLink href="/categories">CATEGORIES</MuiLink><span> | </span>
       <MuiLink href="/priorities">PRIORITIES</MuiLink><span> | </span> 
       <Button onClick = {handleAddBtnClick}>Add new </Button>
+      <SyncData />
       {addVisible &&
       <Grid>
       <AddTaskView 
