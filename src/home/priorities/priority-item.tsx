@@ -24,6 +24,7 @@ const PriorityItem:React.FC<PriorityListItemProps> =
   }
 
   const handleEdit= (pri:Priority) => {
+    setEditVisible(false)
     onEdit(pri)
   }
   return(

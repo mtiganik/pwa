@@ -1,8 +1,10 @@
 import React,{useState} from "react";
 import { Button, Grid, TextField,Typography } from "@mui/material";
-import { Unstable_NumberInput as NumberInput } from '@mui/base/Unstable_NumberInput';
 import { Priority } from "../../models";
 import { editPriorityIdb } from "../../idb/priority-idb";
+import NumberInput from "../../utils/number-input";
+
+
 interface PriorityEditProps{
   priority: Priority;
   editPriority: (pri:Priority) => void
@@ -42,7 +44,7 @@ const EditPriority:React.FC<PriorityEditProps> =
         />
 
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={6} ml={2}>
         <Typography mb={1}>Priority weight</Typography>
       <NumberInput 
         placeholder="Type a number…"
@@ -50,12 +52,12 @@ const EditPriority:React.FC<PriorityEditProps> =
         onChange={(event,val) => setPriSort(val)}
       />
       </Grid>
-    <Grid item xs={3}>
-      <Button onClick={handleEdit}>Edit</Button>
+    <Grid item xs={1}>
+      <Button onClick={handleEdit}>Update Priority</Button>
+    </Grid>
       <Typography color="red" >
           {error}
       </Typography>
-    </Grid>
     </Grid>
   )
 }
