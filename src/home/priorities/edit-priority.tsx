@@ -21,6 +21,7 @@ const EditPriority:React.FC<PriorityEditProps> =
         setError("")
         priority.priorityName = priName
         priority.prioritySort = priSort
+        priority.syncDt = new Date().toISOString()
         var result = await editPriorityIdb(priority)
         if(result >= 200 && result <300){
           editPriority(priority)

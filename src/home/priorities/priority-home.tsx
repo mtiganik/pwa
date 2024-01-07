@@ -7,10 +7,12 @@ import { getAllPrioritiesService } from "../../service/priority-service";
 import PriorityItem from "./priority-item";
 import { getAllPrioritiesIdb } from "../../idb/priority-idb";
 import { getAllTasksIdb } from "../../idb/task-idb";
+import AddPriority from "./add-priority";
 
 const PriorityScreen: React.FC = () => {
   const [priorities, setPriorities] = useState<Priority[]>([])
   const [tasks, setTasks] = useState<Task[]>([])
+  const [addVisible, setAddVisible] = useState(false)
   const [error, setError] = useState("")
   React.useEffect(() => {
     const fetchData = async() => {
@@ -39,10 +41,21 @@ const PriorityScreen: React.FC = () => {
   const getCanDeletePriority = (priId: string): boolean => {
     return !tasks.some((task) => task.todoPriorityId === priId)
   }
+
+  const handlePriorityAdd = async(newPriority:Priority) =>{
+    setAddVisible(false)
+    setPriorities([newPriority, ...priorities])
+  }
   return(
     <div>
       <h1>Priority Screen</h1>
       <Link to="/">To home</Link>
+      <Button onClick={() => setAddVisible(!addVisible)}>Add Priority</Button>
+      {addVisible && (
+        <AddPriority 
+        onAdd ={(newPriority) =>  handlePriorityAdd(newPriority)}
+        />
+      )}
       {priorities.length > 0 && (
         priorities.map((pri) => (
           <span key={pri.id}>
