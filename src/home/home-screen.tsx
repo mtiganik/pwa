@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import React, {useEffect,useState,createContext, useContext} from 'react';
+import React, {useEffect,useState,createContext} from 'react';
 import { getAllCategoriesIdb } from '../idb/category-idb';
 import { getAllPrioritiesIdb } from '../idb/priority-idb';
 import { getAllTasksIdb } from '../idb/task-idb';
