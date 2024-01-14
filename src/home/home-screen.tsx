@@ -62,7 +62,7 @@ const deleteTask = (taskToDelete: Task) => {
 const addTask = (taskToAdd:Task) => {
   setTasks([taskToAdd, ...tasks])
   setAddVisible(false)
-  console.log("add new todo")
+  console.log("add new todo!")
 }
 const getCategoryById = (categoryId: string): Category => {
   var category = categories.find(category => category.id === categoryId)
